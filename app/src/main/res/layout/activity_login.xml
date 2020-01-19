@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="match_parent"
+            android:layout_height="145dp"
+            android:layout_marginBottom="10dp"
+            android:cropToPadding="false"
+            app:srcCompat="@drawable/logo"
+            tools:srcCompat="@drawable/logo" />
+
+
+        <EditText
+            android:id="@+id/etUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edittext_rounded_corners_border"
+            android:ems="10"
+            android:hint="@string/username"
+            android:inputType="textPersonName"
+            android:paddingStart="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/etPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edittext_rounded_corners_border"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:paddingStart="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/recordar"
+                android:textColor="#020101"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/btAcceder"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_rounded_corners_border"
+                android:backgroundTint="#FFEB3B"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="20dp"
+                android:text="@string/acceder"
+
+                android:textSize="24sp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@string/aun_no_registrado"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/btRegistrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_rounded_corners_border"
+            android:backgroundTint="#FFEB3B"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@string/registrar"
+
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/btAccederSinRegistrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edittext_rounded_corners_border"
+            android:backgroundTint="#FFEB3B"
+
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@string/acceder_sin_registrar"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LMT</string>
+    <string name="tu_cesta">CART</string>
+    <string name="total">Total :</string>
+    <string name="cancelar">Cancel</string>
+    <string name="finalizar_y_comprar">FINISH AND CHECKOUT</string>
+    <string name="marcas_destacadas">FEATURED BRANDS</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="modelos_destacados">FEATURED MODELS</string>
+    <string name="_5">5</string>
+    <string name="_10">10</string>
+    <string name="_15">15</string>
+    <string name="_20">20</string>
+    <string name="ver_todo">SEE ALL</string>
+    <string name="username">User</string>
+    <string name="password">Password</string>
+    <string name="recordar">Remind</string>
+    <string name="acceder">LOGIN</string>
+    <string name="aun_no_registrado">¿Not registered yet?</string>
+    <string name="registrar">REGISTER</string>
+    <string name="acceder_sin_registrar">LOGIN WITHOUT REGISTER</string>
+    <string name="nombre_usuario">Login</string>
+    <string name="foto_producto">item photo</string>
+    <string name="nombre_producto_pordefecto">Default product name</string>
+    <string name="precio">Price :</string>
+    <string name="comprar">Buy</string>
+    <string name="descipci_n">Description</string>
+    <string name="des_producto_pordefecto">Default item description.</string>
+    <string name="btMas">+</string>
+    <string name="btMenos">-</string>
+    <string name="finalizar_y_pagar">FINISH AND CHECKOUT</string>
+    <string name="pregunta_finalizar_compra">¿Are you sure you want to finish and checkout?</string>
+    <string name="compra_exitosa">Place ordered.</string>
+    <string name="cuidado">¡Warning!</string>
+    <string name="pregunta_eliminar_producto_cesta">¿Are you sure you want to remove the product from the shopping cart?</string>
+    <string name="eliminar">REMOVE</string>
+    <string name="acerca_de">ABOUT</string>
+    <string name="acerca_de_mensaje">"\nAplication made by:\n"  "Iván Alonso Díaz\n\n"
+                                    "Idea by :\nIván Alonso Díaz y Gema Gil López\n\n"
+                                    "Version :\n 1.5.1"</string>
+    <string name="volver">Back</string>
+    <string name="producto_ya_en_cesta">Item already on shopping cart</string>
+    <string name="producto_añadido_cesta">Item added to shopping cart</string>
+    <string name="usuario_ya_existe">ALREADY EXISTING USER</string>
+    <string name="registrado_correcto">USER CORRECTLY REGISTERED</string>
+    <string name="seleccione_foto">PICK A PHOTO</string>
+    <string name="campos_vacios">EMPTY FIELD/S</string>
+    <string name="contraseña_correcta">LOGIN CORRECTLY</string>
+    <string name="contraseña_incorrecta">WRONG PASSWORD</string>
+    <string name="usuario_incorrecto">WRONG USER</string>
+    <string name="eliminar_producto">TO DELETE PRESS DELETE</string>
+    <string name="proximamente">COMING SOON</string>
+    <string name="cesta_vacia">Empty cart.</string>
+    <string name="debe_iniciar_sesion">You must login to buy.</string>
+
+
+    <string-array name="ordenLista">
+        <item>ASCENDENT PRICE</item>
+        <item>DESCENDENT PRICE</item>
+        <item>POPULARITY</item>
+        <item>ORDERS</item>
+    </string-array>
+    <string-array name="filtroMarcas">
+        <item>ALL</item>
+        <item>BRAND1</item>
+        <item>BRAND2</item>
+        <item>BRAND3</item>
+        <item>BRAND4</item>
+        <item>BRAND5</item>
+        <item>BRAND6</item>
+    </string-array>
+</resources>

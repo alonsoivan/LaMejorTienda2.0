@@ -1,0 +1,75 @@
+<resources>
+    <string name="app_name">LMT</string>
+    <string name="tu_cesta">CESTA</string>
+    <string name="total">Total :</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="finalizar_y_comprar">Finalizar y comprar</string>
+    <string name="marcas_destacadas">MARCAS DESTACADAS</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="modelos_destacados">MODELOS DESTACADOS</string>
+    <string name="_5">5</string>
+    <string name="_10">10</string>
+    <string name="_15">15</string>
+    <string name="_20">20</string>
+    <string name="ver_todo">VER TODO</string>
+    <string name="username">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="recordar">Recordar</string>
+    <string name="acceder">ACCEDER</string>
+    <string name="aun_no_registrado">¿Aún no estás registrado?</string>
+    <string name="registrar">REGISTRAR</string>
+    <string name="acceder_sin_registrar">ACCEDER SIN REGISTRAR</string>
+    <string name="nombre_usuario">Acceder</string>
+    <string name="foto_producto">Foto Producto</string>
+    <string name="nombre_producto_pordefecto">Nombre producto por defecto</string>
+    <string name="precio">Precio :</string>
+    <string name="comprar">Comprar</string>
+    <string name="descipci_n">Descipción</string>
+    <string name="des_producto_pordefecto">Descripción del producto por defecto.</string>
+    <string name="btMas">+</string>
+    <string name="btMenos">-</string>
+    <string name="finalizar_y_pagar">FINALIZAR Y PAGAR</string>
+    <string name="pregunta_finalizar_compra">¿Está seguro que desea finalizar y pagar?</string>
+    <string name="compra_exitosa">Compra realizada con exito.</string>
+    <string name="cuidado">¡Cuidado!</string>
+    <string name="pregunta_eliminar_producto_cesta">¿Estás seguro de que deseas eliminar el producto de la cesta?</string>
+    <string name="eliminar">ELIMINAR</string>
+    <string name="acerca_de">ACERCA DE</string>
+    <string name="acerca_de_mensaje">"\nProgramación y diseño :\n"
+                                    "Iván Alonso Díaz\n\n"
+                                    "Idea :\nIván Alonso Díaz y Gema Gil López\n\n"
+                                    "Versión :\n 1.5.1"</string>
+    <string name="volver">Volver</string>
+    <string name="producto_ya_en_cesta">Producto ya se encuentra en la cesta</string>
+    <string name="producto_añadido_cesta">Producto añadido a la cesta</string>
+    <string name="usuario_ya_existe">USUARIO YA EXISTENTE.</string>
+    <string name="registrado_correcto">Usuario registrado correctamente.</string>
+    <string name="seleccione_foto">Seleccione una foto.</string>
+    <string name="campos_vacios">Campo/s vacios.</string>
+    <string name="contraseña_correcta">Contraseña correcta.</string>
+    <string name="contraseña_incorrecta">Contraseña incorrecta.</string>
+    <string name="usuario_incorrecto">Usuario incorrecto.</string>
+    <string name="eliminar_producto">Para eliminar pulse eliminar.</string>
+    <string name="proximamente">PROXIMAMENTE</string>
+    <string name="cesta_vacia">Cesta vacía.</string>
+    <string name="debe_iniciar_sesion">Inicie sesión para finalizar la compra.</string>
+
+    <string-array name="ordenLista">
+        <item>PRECIO ASCENDENTE</item>
+        <item>PRECIO DESCENDENTE</item>
+        <item>POPULARIDAD</item>
+        <item>VENTAS</item>
+    </string-array>
+    <string-array name="filtroMarcas">
+        <item>TODAS</item>
+        <item>MARCA1</item>
+        <item>MARCA2</item>
+        <item>MARCA3</item>
+        <item>MARCA4</item>
+        <item>MARCA5</item>
+        <item>MARCA6</item>
+    </string-array>
+</resources>

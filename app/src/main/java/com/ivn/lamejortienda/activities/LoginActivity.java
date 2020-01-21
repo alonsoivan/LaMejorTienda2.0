@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         ImageView ivLogo = findViewById(R.id.ivLogo);
         ivLogo.setOnClickListener(this);
         cb.setOnClickListener(this);
-
+        
         btAcceder.setOnClickListener(this);
         btAccederSinRegistrar.setOnClickListener(this);
         btRegistrar.setOnClickListener(this);

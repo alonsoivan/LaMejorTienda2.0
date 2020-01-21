@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -103,6 +104,7 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.btFinalizarYComprar:
                 if(productos.size()>0){
+                    /*
                     if(usr != null) {
                         // Dialogo
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -137,6 +139,11 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
                         builder.create().show();
                     }else
                         Toast.makeText(this, R.string.debe_iniciar_sesion ,Toast.LENGTH_SHORT).show();
+
+                     */
+
+                    startActivity(new Intent(this, MapaPequenioActivity.class));
+
                 }else
                     Toast.makeText(this, R.string.cesta_vacia ,Toast.LENGTH_SHORT).show();
                 break;

@@ -76,8 +76,6 @@ public class MapaPequenioActivity extends AppCompatActivity implements OnMapRead
     }
 
 
-
-
     @Override
     public void onMapReady(GoogleMap map) {
         LatLng casa = new LatLng(40.3497332,-3.6941772);
@@ -106,10 +104,8 @@ public class MapaPequenioActivity extends AppCompatActivity implements OnMapRead
         } else {
             ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+
     }
-
-
-
 
 
 

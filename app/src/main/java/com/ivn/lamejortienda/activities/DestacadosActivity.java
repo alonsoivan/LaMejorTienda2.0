@@ -1,7 +1,5 @@
 package com.ivn.lamejortienda.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,13 +7,24 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ivn.lamejortienda.R;
+
+import static com.ivn.lamejortienda.clases.TareaDescarga.listaMarcas;
 
 
 public class DestacadosActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String usr;
+
+    ImageView marca1;
+    ImageView marca2;
+    ImageView marca3;
+    ImageView marca4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +32,23 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_destacados);
 
         usr = getIntent().getStringExtra("usr");
+
+        marca1 = findViewById(R.id.marca1);
+        marca2 = findViewById(R.id.marca2);
+        marca3 = findViewById(R.id.marca3);
+        marca4 = findViewById(R.id.marca4);
+
+        ponerFotos();
+    }
+
+    public void ponerFotos(){
+        if(listaMarcas.size()>0) {
+            marca1.setImageBitmap(listaMarcas.get(0).getBitmap());
+            marca2.setImageBitmap(listaMarcas.get(1).getBitmap());
+            marca3.setImageBitmap(listaMarcas.get(2).getBitmap());
+            marca4.setImageBitmap(listaMarcas.get(3).getBitmap());
+        }else
+            Toast.makeText(this,"Conexión fallida con el servidor.",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -56,6 +82,7 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
 
                 intentProducto.putExtra("producto", Long.parseLong(findViewById(v.getId()).getContentDescription().toString()));
                 startActivity(intentProducto);
+
                 break;
 
             default:
@@ -72,6 +99,7 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
 
         switch (item.getItemId()) {
             case R.id.action_bar_acerca_de:
+
                 /*
                 Intent acercaDe = new Intent(this,AcercaDeActivity.class);
                 acercaDe.putExtra("usr",usr);

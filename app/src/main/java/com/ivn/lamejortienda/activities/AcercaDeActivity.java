@@ -1,11 +1,10 @@
 package com.ivn.lamejortienda.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ivn.lamejortienda.R;
 import com.ivn.lamejortienda.clases.Database;

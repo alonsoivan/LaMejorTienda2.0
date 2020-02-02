@@ -1,23 +1,32 @@
 package com.ivn.lamejortienda.activities;
 
-
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
-import androidx.fragment.app.FragmentActivity;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ivn.lamejortienda.R;
 import com.ivn.lamejortienda.clases.DirectionsJSONParser;
 
@@ -33,87 +42,94 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MapaActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
-    ArrayList markerPoints= new ArrayList();
+public class MapaActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
+    private static final String TAG = MapaActivity.class.getSimpleName();
+
+    private boolean modo = false;
+    private MapView mapView;
+    private GoogleMap googleMap;
+    LatLng tienda = new LatLng(40.394257, -3.745465);
+    private String mode = "";
+
+    private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
+        // *** IMPORTANT ***
+        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK
+        // objects or sub-Bundles.
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+        }
+        mapView = findViewById(R.id.mapa);
+        mapView.onCreate(mapViewBundle);
 
+        mapView.getMapAsync(this);
+
+        FloatingActionButton btIr = findViewById(R.id.btIr);
+        btIr.setOnClickListener(this);
+        FloatingActionButton btCoche = findViewById(R.id.btCoche);
+        btCoche.setOnClickListener(this);
+        FloatingActionButton btBus = findViewById(R.id.btBus);
+        btBus.setOnClickListener(this);
+        FloatingActionButton btAndar = findViewById(R.id.btAndar);
+        btAndar.setOnClickListener(this);
+        FloatingActionButton btModo = findViewById(R.id.btModo);
+        btModo.setOnClickListener(this);
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 16));
+    public void onClick(View v) {
 
-
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-
-                if (markerPoints.size() > 1) {
-                    markerPoints.clear();
-                    mMap.clear();
+        switch (v.getId()){
+            case R.id.btModo:
+                if(!modo) {
+                    googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.modo_noche));
+                    modo = !modo;
+                }else{
+                    googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.modo_normal));
+                    modo = !modo;
                 }
+            case R.id.btIr:
+                googleMap.clear();
+                googleMap.addMarker(new MarkerOptions().position(tienda).title("LMT2.0").snippet("Abierto L-V"));
+                new MapaActivity.DownloadTask().execute(getDirectionsUrl());
+                break;
+            case R.id.btCoche:
+                Toast.makeText(this,"Modo = Conduciendo",Toast.LENGTH_SHORT).show();
+                mode = "mode=driving";
+                break;
+            case R.id.btAndar:
+                Toast.makeText(this,"Modo = Andando",Toast.LENGTH_SHORT).show();
+                mode = "mode=walking";
+                break;
+            case R.id.btBus:
+                mode = "Transit";
+                break;
+        }
+    }
 
-                // Adding new item to the ArrayList
-                markerPoints.add(latLng);
+    @Override
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
 
-                // Creating MarkerOptions
-                MarkerOptions options = new MarkerOptions();
+        map.addMarker(new MarkerOptions().position(tienda).title("LMT2.0").snippet("Abierto L-V"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(tienda, 16));
 
-                // Setting the position of the marker
-                options.position(latLng);
+        //Disable Map Toolbar:
+        map.getUiSettings().setMapToolbarEnabled(false);
 
-                if (markerPoints.size() == 1) {
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                } else if (markerPoints.size() == 2) {
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                }
-
-                // Add new marker to the Google Map Android API V2
-                mMap.addMarker(options);
-
-                // Checks, whether start and end locations are captured
-                if (markerPoints.size() >= 2) {
-                    LatLng origin = (LatLng) markerPoints.get(0);
-                    LatLng dest = (LatLng) markerPoints.get(1);
-
-                    // Getting URL to the Google Directions API
-                    String url = getDirectionsUrl(origin, dest);
-
-                    DownloadTask downloadTask = new DownloadTask();
-
-                    // Start downloading json data from Google Directions API
-                    downloadTask.execute(url);
-                }
-
-            }
-        });
-
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            map.setMyLocationEnabled(true);
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
     }
 
     private class DownloadTask extends AsyncTask<String, Void, String> {
@@ -135,14 +151,11 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            ParserTask parserTask = new ParserTask();
-
+            MapaActivity.ParserTask parserTask = new MapaActivity.ParserTask();
 
             parserTask.execute(result);
-
         }
     }
-
 
     /**
      * A class to parse the Google Places in JSON format
@@ -167,6 +180,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
             return routes;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
             ArrayList points = null;
@@ -190,38 +204,54 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
                 lineOptions.addAll(points);
-                lineOptions.width(12);
-                lineOptions.color(Color.rgb(32 ,167,75));
+                lineOptions.width(15);
+                if (modo)
+                    lineOptions.color(Color.rgb(255, 235, 59));
+                else
+                    lineOptions.color(Color.rgb(3, 68, 255));
+
                 lineOptions.geodesic(true);
 
             }
-
             // Drawing polyline in the Google Map for the i-th route
-            mMap.addPolyline(lineOptions);
+            googleMap.addPolyline(lineOptions);
         }
     }
 
-    private String getDirectionsUrl(LatLng origin, LatLng dest) {
+    private String getDirectionsUrl() {
+
+        double longitude = 0;
+        double latitude = 0;
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED  && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        }
 
         // Origin of route
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+        String str_origin = "origin=" + latitude + "," + longitude;
 
         // Destination of route
-        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+        String str_dest = "destination=" + tienda.latitude + "," + tienda.longitude;
 
         // Sensor enabled
         String sensor = "sensor=false";
-        String mode = "mode=driving";
+
+        //String mode = "mode=walking";
+
         // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode;
+        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode + "&" + "transit_mode=subway";
 
         // Output format
         String output = "json";
 
         // Building the url to the web service
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters+"&key=" +"AIzaSyCjhFV0xn40V0ojoNE2Qc1cfEzjRHcCJdc";
-
-
 
         return url;
     }
@@ -263,4 +293,53 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         }
         return data;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
+        }
+        mapView.onSaveInstanceState(mapViewBundle);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        mapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
 }

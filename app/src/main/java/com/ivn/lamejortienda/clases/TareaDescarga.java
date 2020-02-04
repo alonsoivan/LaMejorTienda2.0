@@ -5,16 +5,23 @@ import android.os.AsyncTask;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+
+import static com.ivn.lamejortienda.clases.Objetos.URL_MARCAS;
+import static com.ivn.lamejortienda.clases.Objetos.URL_MODELO;
+import static com.ivn.lamejortienda.clases.Objetos.URL_MODELOS;
+import static com.ivn.lamejortienda.clases.Objetos.URL_MODELOS_POR_MARCA;
+import static com.ivn.lamejortienda.clases.Objetos.URL_SERVIDOR;
+import static com.ivn.lamejortienda.clases.Objetos.URL_USUARIOS;
+import static com.ivn.lamejortienda.clases.Objetos.diccionarioModelos;
+import static com.ivn.lamejortienda.clases.Objetos.listaMarcas;
+import static com.ivn.lamejortienda.clases.Objetos.listaModelos;
+import static com.ivn.lamejortienda.clases.Objetos.listaModelosPorMarca;
+import static com.ivn.lamejortienda.clases.Objetos.modelo;
+import static com.ivn.lamejortienda.clases.Objetos.sem;
 
 
 public class TareaDescarga extends AsyncTask<String, Void, Void> {
-
-    // prueba server web
-    public static List<Marca> listaMarcas = new ArrayList<>();
-    public static final String URL_SERVIDOR = "http://192.168.1.128:8080";
 
     /*
      * En este método se debe escribir el código de la tarea que se desea
@@ -24,12 +31,46 @@ public class TareaDescarga extends AsyncTask<String, Void, Void> {
      */
     @Override
     protected Void doInBackground(String... params) {
-        System.out.println("-2----+++-++-+-+-+-+-+-+-+-+-+-++--2-4--4-4-4-4-4-4--4-4-4-4-44");
         RestTemplate restTemplate = new RestTemplate();
+
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        Marca[] marcasArray = restTemplate.getForObject(URL_SERVIDOR + "/marcas", Marca[].class);
-        listaMarcas.addAll(Arrays.asList(marcasArray));
-        System.out.println(listaMarcas.size()+"E-E-E-E-E--E-E-E+E+E+E++E+E+E+E++E+E+E");
+        try {
+
+            switch(params[0]){
+                case URL_MARCAS:
+                    listaMarcas.clear();
+                    listaMarcas.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + params[0], Marca[].class)));
+                    System.out.println(listaMarcas.size()+" = E-E-E-E-E--E-E-E+E+E+E++E+E+E+E++E+E+E= TAMAÑO ARRAYLIST MARCAS");
+                    break;
+                case URL_MODELOS:
+                    listaModelos.clear();
+                    listaModelos.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + params[0], Modelo[].class)));
+
+                    for(Modelo m : listaModelos)
+                        diccionarioModelos.put(m.getId(),m);
+
+                    System.out.println(listaModelos.size()+" = E-E-E-E-E--E-E-E+E+E+E++E+E+E+E++E+E+E= TAMAÑO ARRAYLIST MODELOS");
+                    break;
+                case URL_USUARIOS:
+                    //listaUsuarios.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + params[0], Usuario[].class)));
+                    break;
+                case URL_MODELO:   // quitar?
+                    modelo = restTemplate.getForObject(URL_SERVIDOR + params[0] + params[1], Modelo.class);
+                    System.out.println(modelo.getNombre());
+                    break;
+                case URL_MODELOS_POR_MARCA:
+                    listaModelosPorMarca.clear();
+                    listaModelosPorMarca.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + params[0] + params[1], Modelo[].class)));
+                    System.out.println(listaModelosPorMarca.size()+" = E-E-E-E-E--E-E-E+E+E+E++E+E+E+E++E+E+E= TAMAÑO ARRAYLIST MODELOS POR RMARCA");
+                    sem.release();
+                    break;
+
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return null;
     }
 
@@ -62,5 +103,6 @@ public class TareaDescarga extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void resultado) {
         super.onPostExecute(resultado);
+
     }
 }

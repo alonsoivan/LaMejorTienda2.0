@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -47,11 +46,12 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private static final String TAG = MapaActivity.class.getSimpleName();
 
-    private boolean modo = false;
+
+    private boolean modo = false;  // Para ver en que modo esta: claro-oscuro
     private MapView mapView;
     private GoogleMap googleMap;
     LatLng tienda = new LatLng(40.394257, -3.745465);
-    private String mode = "";
+    private String mode = "";      // Incida el modo de ruta: andando, en coche..
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
@@ -71,6 +71,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onCreate(mapViewBundle);
 
         mapView.getMapAsync(this);
+
 
         FloatingActionButton btIr = findViewById(R.id.btIr);
         btIr.setOnClickListener(this);
@@ -110,6 +111,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mode = "mode=walking";
                 break;
             case R.id.btBus:
+                Toast.makeText(this,"Modo = Transporte Público",Toast.LENGTH_SHORT).show();
                 mode = "Transit";
                 break;
         }
@@ -122,8 +124,9 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         map.addMarker(new MarkerOptions().position(tienda).title("LMT2.0").snippet("Abierto L-V"));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(tienda, 16));
 
-        //Disable Map Toolbar:
+        //Disable Map Toolbar and compass:
         map.getUiSettings().setMapToolbarEnabled(false);
+        map.getUiSettings().setCompassEnabled(false);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
@@ -131,6 +134,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
     }
+
 
     private class DownloadTask extends AsyncTask<String, Void, String> {
 
@@ -151,9 +155,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            MapaActivity.ParserTask parserTask = new MapaActivity.ParserTask();
-
-            parserTask.execute(result);
+            new MapaActivity.ParserTask().execute(result);
         }
     }
 
@@ -180,7 +182,6 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
             return routes;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
             ArrayList points = null;
@@ -220,18 +221,21 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private String getDirectionsUrl() {
 
-        double longitude = 0;
-        double latitude = 0;
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+        double longitude = 0;
+        double latitude = 0;
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED  && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            //Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             longitude = location.getLongitude();
             latitude = location.getLatitude();
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
+
 
         // Origin of route
         String str_origin = "origin=" + latitude + "," + longitude;

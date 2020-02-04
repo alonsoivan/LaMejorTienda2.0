@@ -61,6 +61,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
+            android:fontFamily="sans-serif-black"
             android:text="@string/nombre_usuario"
             android:textAlignment="textEnd"
             android:textSize="24sp" />

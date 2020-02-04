@@ -33,6 +33,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
                     android:text="@string/nombre_usuario"
                     android:textAlignment="textEnd"
                     android:textSize="24sp" />
@@ -51,9 +52,9 @@
 
             <ImageView
                 android:id="@+id/ivProducto"
-                android:layout_width="match_parent"
-                android:layout_height="365dp"
-                android:layout_margin="15dp"
+                android:layout_width="400dp"
+                android:layout_height="400dp"
+                android:layout_margin="5dp"
                 android:contentDescription="@string/foto_producto"
                 app:srcCompat="@drawable/logo" />
 
@@ -64,6 +65,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
+                android:fontFamily="sans-serif-black"
                 android:text="@string/nombre_producto_pordefecto"
                 android:textColor="#000000"
                 android:textSize="30sp" />
@@ -71,7 +73,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="15dp"
                 android:baselineAligned="false"
                 android:gravity="right"
                 android:orientation="horizontal">
@@ -83,6 +85,7 @@
                     android:layout_margin="10dp"
                     android:layout_marginStart="50dp"
                     android:layout_marginEnd="30dp"
+                    android:fontFamily="sans-serif-black"
                     android:text="@string/precio"
                     android:textColor="#000000"
                     android:textSize="30sp" />
@@ -102,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="30dp"
                 android:orientation="horizontal">
@@ -126,6 +129,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/edittext_rounded_corners_border"
                     android:backgroundTint="#FFEB3B"
+                    android:fontFamily="sans-serif-black"
                     android:text="@string/comprar"
                     android:textSize="36sp" />
 
@@ -136,6 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
+                android:fontFamily="sans-serif-black"
                 android:text="@string/descipci_n"
                 android:textColor="#FC000000"
                 android:textSize="36sp" />

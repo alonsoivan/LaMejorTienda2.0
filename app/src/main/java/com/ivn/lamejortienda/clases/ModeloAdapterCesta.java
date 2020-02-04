@@ -22,15 +22,15 @@ import static com.ivn.lamejortienda.activities.CestaActivity.adaptador;
 import static com.ivn.lamejortienda.activities.CestaActivity.total;
 import static com.ivn.lamejortienda.activities.CestaActivity.tvTotal;
 
-public class ProductoAdapterCesta extends BaseAdapter{
+public class ModeloAdapterCesta extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Producto> listaProductos;
+    private ArrayList<Modelo> listaModelos;
     private LayoutInflater inflater;
 
-    public ProductoAdapterCesta(Context context, ArrayList<Producto> listaProductos) {
+    public ModeloAdapterCesta(Context context, ArrayList<Modelo> listaModelos) {
         this.context = context;
-        this.listaProductos = listaProductos;
+        this.listaModelos = listaModelos;
         inflater = LayoutInflater.from(context);
     }
 
@@ -45,13 +45,13 @@ public class ProductoAdapterCesta extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ProductoAdapterCesta.ViewHolder holder = null;
+        ModeloAdapterCesta.ViewHolder holder = null;
 
         // Si la View es null se crea de nuevo
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.fila_cesta, null);
 
-            holder = new ProductoAdapterCesta.ViewHolder();
+            holder = new ModeloAdapterCesta.ViewHolder();
             holder.foto = convertView.findViewById(R.id.ivFoto);
             holder.nombre = convertView.findViewById(R.id.tvNombre);
             holder.cantidad = convertView.findViewById(R.id.tvCantidad);
@@ -66,20 +66,18 @@ public class ProductoAdapterCesta extends BaseAdapter{
          * nuevos valores
          */
         else {
-            holder = (ProductoAdapterCesta.ViewHolder) convertView.getTag();
+            holder = (ModeloAdapterCesta.ViewHolder) convertView.getTag();
         }
 
-        final Producto producto = listaProductos.get(position);
-        final Database db = new Database(context);
-        final ViewHolder finalHolder = holder;
+        final Modelo modelo = listaModelos.get(position);
+        final ModeloAdapterCesta.ViewHolder finalHolder = holder;
 
-        holder.foto.setImageBitmap(producto.getImagen()); // EL bueno cuando tenga imgs
-        //holder.foto.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo)); // Para poner 1 foto a todos
-        holder.nombre.setText(producto.getNombre());
-        holder.cantidad.setText(String.valueOf(producto.getCantidad()));
-        holder.precio.setText(Util.format(producto.getPrecio()));
+        holder.foto.setImageBitmap(modelo.getBitmap()); // EL bueno cuando tenga imgs
+        holder.nombre.setText(modelo.getNombre());
+        holder.cantidad.setText(String.valueOf(modelo.getCantidad()));
+        holder.precio.setText(Util.format(modelo.getPrecio()));
 
-        if (producto.getCantidad() > 1)
+        if (modelo.getCantidad() > 1)
             ViewCompat.setBackgroundTintList(finalHolder.botonMenos, ColorStateList.valueOf(Color.parseColor("#FFEB3B")));
         else {
             ViewCompat.setBackgroundTintList(finalHolder.botonMenos, ColorStateList.valueOf(Color.parseColor("#d1d1d1")));
@@ -88,22 +86,21 @@ public class ProductoAdapterCesta extends BaseAdapter{
         holder.botonMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(producto.getCantidad()>1){
-                    producto.setCantidad(producto.getCantidad()-1);
-                    db.modificarProducto(producto);
+                if(modelo.getCantidad()>1){
+                    listaModelos.get(listaModelos.indexOf(modelo)).setCantidad(modelo.getCantidad()-1);
+
                     adaptador.notifyDataSetChanged();
 
-                    /*
                     //Actualziar precio total
                     total = 0;
-                    for (Producto producto1: productos)
-                        total += (producto1.getPrecio()*producto1.getCantidad());
-*/
+                    for (Modelo modelo: listaModelos)
+                        total += (modelo.getPrecio()*modelo.getCantidad());
+
                     tvTotal.setText(Util.format(total));
                 }else
                     Toast.makeText(context, R.string.eliminar_producto ,Toast.LENGTH_SHORT).show();
 
-                if(producto.getCantidad()==1) {
+                if(modelo.getCantidad()==1) {
                     ViewCompat.setBackgroundTintList(finalHolder.botonMenos, ColorStateList.valueOf(Color.parseColor("#d1d1d1")));
                     finalHolder.botonMenos.setTextColor(Color.parseColor("#A5A5A5"));
                 }
@@ -113,16 +110,14 @@ public class ProductoAdapterCesta extends BaseAdapter{
         holder.botonMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                producto.setCantidad(producto.getCantidad()+1);
-                db.modificarProducto(producto);
+                listaModelos.get(listaModelos.indexOf(modelo)).setCantidad(modelo.getCantidad()+1);
                 adaptador.notifyDataSetChanged();
 
-                /*
                 //Actualziar precio total
                 total = 0;
-                for (Producto producto1: productos)
-                    total += (producto1.getPrecio()*producto1.getCantidad());
-*/
+                for (Modelo modelo: listaModelos)
+                    total += (modelo.getPrecio()*modelo.getCantidad());
+
                 tvTotal.setText(Util.format(total));
 
                 ViewCompat.setBackgroundTintList(finalHolder.botonMenos, ColorStateList.valueOf(Color.parseColor("#FFEB3B")));
@@ -135,12 +130,12 @@ public class ProductoAdapterCesta extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return listaProductos.size();
+        return listaModelos.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return listaProductos.get(position);
+        return listaModelos.get(position);
     }
 
     @Override

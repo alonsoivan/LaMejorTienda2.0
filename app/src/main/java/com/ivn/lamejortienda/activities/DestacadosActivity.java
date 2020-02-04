@@ -14,7 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ivn.lamejortienda.R;
 
-import static com.ivn.lamejortienda.clases.TareaDescarga.listaMarcas;
+import static com.ivn.lamejortienda.clases.Objetos.listaMarcas;
+import static com.ivn.lamejortienda.clases.Objetos.listaModelos;
 
 
 public class DestacadosActivity extends AppCompatActivity implements View.OnClickListener {
@@ -25,6 +26,11 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
     ImageView marca2;
     ImageView marca3;
     ImageView marca4;
+
+    ImageView modelo1;
+    ImageView modelo2;
+    ImageView modelo3;
+    ImageView modelo4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,11 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
         marca3 = findViewById(R.id.marca3);
         marca4 = findViewById(R.id.marca4);
 
+        modelo1 = findViewById(R.id.modelo1);
+        modelo2 = findViewById(R.id.modelo2);
+        modelo3 = findViewById(R.id.modelo3);
+        modelo4 = findViewById(R.id.modelo4);
+
         ponerFotos();
     }
 
@@ -49,14 +60,22 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
             marca4.setImageBitmap(listaMarcas.get(3).getBitmap());
         }else
             Toast.makeText(this,"Conexión fallida con el servidor.",Toast.LENGTH_SHORT).show();
+
+        if(listaModelos.size()>0){
+            modelo1.setImageBitmap(listaModelos.get(0).getBitmap());
+            modelo2.setImageBitmap(listaModelos.get(1).getBitmap());
+            modelo3.setImageBitmap(listaModelos.get(2).getBitmap());
+            modelo4.setImageBitmap(listaModelos.get(3).getBitmap());
+        }else
+            Toast.makeText(this,"Conexión fallida con el servidor.",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(View v) {
         Intent intentListado = new Intent(this, ListadoActivity.class);
-        Intent intentProducto = new Intent(this, ProductoActivity.class);
+        Intent intentModelo = new Intent(this, ProductoActivity.class);
         intentListado.putExtra("usr", usr);
-        intentProducto.putExtra("usr", usr);
+        intentModelo.putExtra("usr", usr);
 
         switch (v.getId()) {
             case R.id.marca1:
@@ -73,15 +92,17 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intentListado);
                 break;
 
-            case R.id.producto1:
-            case R.id.producto2:
-            case R.id.producto3:
-            case R.id.producto4:
+            case R.id.modelo1:
+            case R.id.modelo2:
+            case R.id.modelo3:
+            case R.id.modelo4:
+
+                int id = Integer.parseInt(findViewById(v.getId()).getContentDescription().toString());
 
                 // pasas la desc del producto sobre el que haya pulsado para ir a el
 
-                intentProducto.putExtra("producto", Long.parseLong(findViewById(v.getId()).getContentDescription().toString()));
-                startActivity(intentProducto);
+                intentModelo.putExtra("idModelo",id );
+                startActivity(intentModelo);
 
                 break;
 

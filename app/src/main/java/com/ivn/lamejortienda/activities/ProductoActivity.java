@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,9 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ivn.lamejortienda.R;
 import com.ivn.lamejortienda.clases.Database;
-import com.ivn.lamejortienda.clases.Producto;
 import com.ivn.lamejortienda.clases.Usuario;
 import com.ivn.lamejortienda.clases.Util;
+
+import static com.ivn.lamejortienda.clases.Objetos.diccionarioModelos;
+import static com.ivn.lamejortienda.clases.Objetos.listaModelos;
+import static com.ivn.lamejortienda.clases.Objetos.modelo;
 
 
 public class ProductoActivity extends AppCompatActivity implements View.OnClickListener {
@@ -26,24 +30,32 @@ public class ProductoActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_producto);
 
         Database db = new Database(this);
-        Producto producto = db.getProducto(getIntent().getLongExtra("producto",1));
+        //Producto producto = db.getProducto(getIntent().getLongExtra("idModelo",1));
+        //getIntent().getIntExtra("idModelo",1)
+
+        modelo = diccionarioModelos.get(getIntent().getIntExtra("idModelo",1));
 
         TextView tvNombre = findViewById(R.id.tvNombre);
-        tvNombre.setText(producto.getNombre());
+        tvNombre.setText(modelo.getNombre());
 
         TextView tvPrecio = findViewById(R.id.tvPrecio);
-        tvPrecio.setText(Util.format(producto.getPrecio()));
+        tvPrecio.setText(Util.format(modelo.getPrecio()));
 
         TextView tvDes = findViewById(R.id.tvDes);
-        tvDes.setText(producto.getDescripcion());
+        tvDes.setText(modelo.getDescripcion());
+
+        ImageView ivProducto = findViewById(R.id.ivProducto);
+        ivProducto.setImageBitmap(modelo.getBitmap());
+
 
         Button btComprar = findViewById(R.id.btComprar);
         Button btAddCesta = findViewById(R.id.btAddCesta);
 
+
         btComprar.setOnClickListener(this);
         btAddCesta.setOnClickListener(this);
 
-        // Usuario
+        // Usuario  //
         usr = getIntent().getStringExtra("usr");
 
         TextView tvUsr = findViewById(R.id.tvUsr);
@@ -62,28 +74,28 @@ public class ProductoActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        Database db = new Database(this);
-        Producto producto = db.getProducto(getIntent().getLongExtra("producto",1));
 
+        int index = listaModelos.indexOf(modelo);
         switch (v.getId()){
             case R.id.btComprar:
                 Intent carrito = new Intent(this, CestaActivity.class);
                 carrito.putExtra("usr",usr);
 
-                if (!producto.isInCesta()) {
-                    producto.anadirCesta();
-                    db.modificarProducto(producto);
+                if (!modelo.isCesta()) {
+                    modelo.setCesta(true);
                 }
+
+                listaModelos.set(index,modelo);
 
                 startActivity(carrito);
 
                 break;
             case R.id.btAddCesta:
-                if (producto.isInCesta())
+                if (modelo.isCesta())
                     Toast.makeText(this,R.string.producto_ya_en_cesta,Toast.LENGTH_SHORT).show();
                 else {
-                    producto.anadirCesta();
-                    db.modificarProducto(producto);
+                    modelo.setCesta(true);
+                    listaModelos.set(index,modelo);
                     Toast.makeText(this, R.string.producto_añadido_cesta , Toast.LENGTH_SHORT).show();
                 }
                 break;

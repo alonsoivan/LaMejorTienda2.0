@@ -9,14 +9,18 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ivn.lamejortienda.R;
-import com.ivn.lamejortienda.clases.TareaDescarga;
 
-import static com.ivn.lamejortienda.clases.TareaDescarga.URL_SERVIDOR;
-
+import static com.ivn.lamejortienda.clases.Objetos.URL_MARCAS;
+import static com.ivn.lamejortienda.clases.Objetos.URL_MODELO;
+import static com.ivn.lamejortienda.clases.Objetos.URL_MODELOS;
+import static com.ivn.lamejortienda.clases.Objetos.URL_USUARIOS;
+import static com.ivn.lamejortienda.clases.Objetos.cargarMarcas;
+import static com.ivn.lamejortienda.clases.Objetos.cargarModelos;
+import static com.ivn.lamejortienda.clases.Objetos.cargarUsuarios;
 
 public class SplashMainActivity extends AppCompatActivity {
 
-    private final int DURACION_SPLASH = 3000;
+    private final int DURACION_SPLASH = 400;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,7 +30,10 @@ public class SplashMainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash_main);
 
-        cargarMarcas();
+        cargarMarcas(URL_MARCAS);
+        cargarModelos(URL_MODELOS);
+        cargarUsuarios(URL_USUARIOS);
+        //cargarModeloPorId(URL_MODELO,3);
 
         new Handler().postDelayed(new Runnable(){
             public void run(){
@@ -35,11 +42,6 @@ public class SplashMainActivity extends AppCompatActivity {
                 finish();
             }
         }, DURACION_SPLASH);
-    }
-
-    public void cargarMarcas() {
-        TareaDescarga t = new TareaDescarga();
-        t.execute(URL_SERVIDOR);
     }
 
 

@@ -19,8 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ivn.lamejortienda.R;
 import com.ivn.lamejortienda.clases.Database;
-import com.ivn.lamejortienda.clases.Producto;
-import com.ivn.lamejortienda.clases.ProductoAdapterCesta;
+import com.ivn.lamejortienda.clases.Modelo;
+import com.ivn.lamejortienda.clases.ModeloAdapterCesta;
+import com.ivn.lamejortienda.clases.Objetos;
 import com.ivn.lamejortienda.clases.Usuario;
 import com.ivn.lamejortienda.clases.Util;
 
@@ -30,8 +31,8 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
 
     private String usr;
 
-    public static ArrayList<Producto> productos;
-    public static ProductoAdapterCesta adaptador;
+    public static ArrayList<Modelo> modelosCesta;
+    public static ModeloAdapterCesta adaptador;
     public static float total = 0;
     public static TextView tvTotal;
 
@@ -64,22 +65,25 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
 
 
         // LISTVIEW
-        productos = new ArrayList<>();
-        ListView listaProductos = findViewById(R.id.lvListaCesta);
-        registerForContextMenu(listaProductos);
-        adaptador = new ProductoAdapterCesta(this,productos);
-        listaProductos.setAdapter(adaptador);
+        modelosCesta = new ArrayList<>();
+        ListView lvModelos = findViewById(R.id.lvListaCesta);
+        registerForContextMenu(lvModelos);
+        adaptador = new ModeloAdapterCesta(this,modelosCesta);
+        lvModelos.setAdapter(adaptador);
 
-        Database db = new Database(this);
-        productos.addAll(db.getCesta());
+
+        for (Modelo m: Objetos.listaModelos)
+            if (m.isCesta())
+                modelosCesta.add(m);
+
         adaptador.notifyDataSetChanged();
 
 
         // Obtener el precio total de la cesta
         tvTotal = findViewById(R.id.tvTotal);
         total = 0;
-        for (Producto producto: productos)
-            total += (producto.getPrecio()*producto.getCantidad());
+        for (Modelo modelo: modelosCesta)
+            total += (modelo.getPrecio()*modelo.getCantidad());
 
         tvTotal.setText(Util.format(total));
     }
@@ -90,8 +94,8 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
 
         tvTotal = findViewById(R.id.tvTotal);
         total = 0;
-        for (Producto producto: productos)
-            total += (producto.getPrecio()*producto.getCantidad());
+        for (Modelo modelo: modelosCesta)
+            total += (modelo.getPrecio()*modelo.getCantidad());
 
         tvTotal.setText(Util.format(total));
     }
@@ -103,7 +107,7 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.btFinalizarYComprar:
-                if(productos.size()>0){
+                if(modelosCesta.size()>0){
                     /*
                     if(usr != null) {
                         // Dialogo
@@ -167,10 +171,9 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         final int itemSeleccionado = info.position;
-        final Database db = new Database(this);
         final TextView tvTotal = findViewById(R.id.tvTotal);
 
-        final Producto producto = productos.get(itemSeleccionado);
+        final Modelo modelo = modelosCesta.get(itemSeleccionado);
         switch (item.getItemId()) {
             case R.id.context_eliminar:
 
@@ -181,16 +184,18 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
                 builder.setMessage(R.string.pregunta_eliminar_producto_cesta );
                 builder.setPositiveButton(R.string.eliminar ,   new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        productos.remove(itemSeleccionado);
-                        producto.setCesta(false);
-                        producto.setCantidad(1);
-                        db.modificarProducto(producto);
+
+                        Objetos.listaModelos.get(Objetos.listaModelos.indexOf(modelo)).setCesta(false);
+                        Objetos.listaModelos.get(Objetos.listaModelos.indexOf(modelo)).setCantidad(1);
+
+                        modelosCesta.remove(modelo);
+
                         adaptador.notifyDataSetChanged();
 
                         //Actualziar precio total
                         total = 0;
-                        for (Producto producto1: productos)
-                            total += (producto1.getPrecio()*producto1.getCantidad());
+                        for (Modelo modelo: modelosCesta)
+                            total += (modelo.getPrecio()*modelo.getCantidad());
 
                         tvTotal.setText(Util.format(total));
                     }

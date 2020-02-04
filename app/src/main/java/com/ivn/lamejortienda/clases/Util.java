@@ -6,12 +6,15 @@ import android.content.Intent;
 import com.ivn.lamejortienda.activities.LoginActivity;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 
 public class Util {
 
     public static String format(float d){
-        DecimalFormat f = new DecimalFormat("#,##0.00");
+        DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
+        simbolos.setDecimalSeparator(',');
+        DecimalFormat f = new DecimalFormat("#,##0.00",simbolos);
         return f.format(d)+" €";
     }
 

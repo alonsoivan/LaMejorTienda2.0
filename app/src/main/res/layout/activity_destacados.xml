@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_red_dark"
-    android:backgroundTint="@android:color/holo_red_dark"
     tools:context=".activities.DestacadosActivity">
 
     <LinearLayout
@@ -24,6 +22,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
             android:text="@string/marcas_destacadas"
             android:textAlignment="center"
             android:textColor="#000000"
@@ -41,17 +40,18 @@
 
                 <ImageView
                     android:id="@+id/marca1"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="201dp"
+                    android:layout_height="201dp"
                     android:contentDescription="@string/_1"
                     android:onClick="onClick"
                     app:srcCompat="@android:color/background_dark" />
 
                 <ImageView
                     android:id="@+id/marca2"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="201dp"
+                    android:layout_height="201dp"
                     android:contentDescription="@string/_2"
+                    android:onClick="onClick"
                     app:srcCompat="@color/common_google_signin_btn_text_dark_focused" />
 
             </TableRow>
@@ -62,16 +62,18 @@
 
                 <ImageView
                     android:id="@+id/marca3"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="201dp"
+                    android:layout_height="201dp"
                     android:contentDescription="@string/_3"
+                    android:onClick="onClick"
                     app:srcCompat="@android:color/background_dark" />
 
                 <ImageView
                     android:id="@+id/marca4"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="201dp"
+                    android:layout_height="201dp"
                     android:contentDescription="@string/_4"
+                    android:onClick="onClick"
                     app:srcCompat="@color/common_google_signin_btn_text_dark_focused" />
             </TableRow>
 
@@ -81,6 +83,7 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
             android:text="@string/modelos_destacados"
             android:textAlignment="center"
             android:textColor="#000000"
@@ -94,57 +97,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageButton
-                    android:id="@+id/producto1"
-                    style="@style/Widget.AppCompat.ImageButton"
+                <ImageView
+                    android:id="@+id/modelo1"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/logo"
-                    android:contentDescription="@string/_5"
-                    android:isScrollContainer="false"
-                    android:keepScreenOn="false"
+                    android:contentDescription="1"
                     android:onClick="onClick"
-                    android:paddingStart="155dp"
-                    android:paddingEnd="25dp" />
+                    app:srcCompat="@color/common_google_signin_btn_text_dark_focused" />
 
-                <ImageButton
-                    android:id="@+id/producto2"
-                    style="@style/Widget.AppCompat.ImageButton"
+                <ImageView
+                    android:id="@+id/modelo2"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/logo"
-                    android:contentDescription="@string/_10"
-                    android:isScrollContainer="false"
-                    android:keepScreenOn="false"
+                    android:contentDescription="3"
                     android:onClick="onClick"
-                    android:paddingStart="155dp"
-                    android:paddingEnd="25dp" />
+                    app:srcCompat="@android:color/black" />
 
-                <ImageButton
-                    android:id="@+id/producto3"
-                    style="@style/Widget.AppCompat.ImageButton"
+                <ImageView
+                    android:id="@+id/modelo3"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/logo"
-                    android:contentDescription="@string/_15"
-                    android:isScrollContainer="false"
-                    android:keepScreenOn="false"
+                    android:contentDescription="4"
                     android:onClick="onClick"
-                    android:paddingStart="155dp"
-                    android:paddingEnd="25dp" />
+                    app:srcCompat="@android:color/black" />
 
-                <ImageButton
-                    android:id="@+id/producto4"
-                    style="@style/Widget.AppCompat.ImageButton"
+                <ImageView
+                    android:id="@+id/modelo4"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/logo"
-                    android:contentDescription="@string/_20"
-                    android:isScrollContainer="false"
-                    android:keepScreenOn="false"
+                    android:contentDescription="5"
                     android:onClick="onClick"
-                    android:paddingStart="155dp"
-                    android:paddingEnd="25dp" />
+                    app:srcCompat="@android:color/black" />
+
             </TableRow>
 
         </TableLayout>
@@ -153,10 +137,11 @@
             android:id="@+id/btVerTodo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="2dp"
             android:background="@drawable/edittext_rounded_corners_border"
             android:backgroundTint="#FFEB3B"
+            android:fontFamily="sans-serif-black"
             android:onClick="onClick"
             android:text="@string/ver_todo"
             android:textSize="30sp" />

@@ -1,22 +1,33 @@
 package com.ivn.lamejortienda.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ivn.lamejortienda.R;
+import com.ivn.lamejortienda.clases.Marca;
+import com.ivn.lamejortienda.clases.Modelo;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
 
 import static com.ivn.lamejortienda.clases.Objetos.URL_MARCAS;
-import static com.ivn.lamejortienda.clases.Objetos.URL_MODELO;
 import static com.ivn.lamejortienda.clases.Objetos.URL_MODELOS;
-import static com.ivn.lamejortienda.clases.Objetos.URL_USUARIOS;
-import static com.ivn.lamejortienda.clases.Objetos.cargarMarcas;
-import static com.ivn.lamejortienda.clases.Objetos.cargarModelos;
-import static com.ivn.lamejortienda.clases.Objetos.cargarUsuarios;
+import static com.ivn.lamejortienda.clases.Objetos.URL_SERVIDOR;
+import static com.ivn.lamejortienda.clases.Objetos.diccionarioModelos;
+import static com.ivn.lamejortienda.clases.Objetos.listaMarcas;
+import static com.ivn.lamejortienda.clases.Objetos.listaModelos;
 
 public class SplashMainActivity extends AppCompatActivity {
 
@@ -30,19 +41,65 @@ public class SplashMainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash_main);
 
-        cargarMarcas(URL_MARCAS);
-        cargarModelos(URL_MODELOS);
-        cargarUsuarios(URL_USUARIOS);
-        //cargarModeloPorId(URL_MODELO,3);
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        new Handler().postDelayed(new Runnable(){
-            public void run(){
-                Intent intent = new Intent(SplashMainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }, DURACION_SPLASH);
+        if (mWifi.isConnected()) {
+
+            TareaDescarga t = new TareaDescarga();
+            t.execute();
+
+        }else {
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    Intent intent = new Intent(SplashMainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }, DURACION_SPLASH);
+        }
+
     }
 
+    public class TareaDescarga extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+            listaMarcas.clear();
+            listaModelos.clear();
+
+            listaMarcas.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_MARCAS, Marca[].class)));
+            listaModelos.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_MODELOS, Modelo[].class)));
+
+            for(Modelo m : listaModelos)
+                diccionarioModelos.put(m.getId(),m);
+
+            return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... progreso) {
+            super.onProgressUpdate(progreso);
+        }
+
+        @Override
+        protected void onPostExecute(Void resultado) {
+            super.onPostExecute(resultado);
+            Intent intent = new Intent(SplashMainActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+            Toast.makeText(getApplicationContext(), "carga ok!", Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
 
 }

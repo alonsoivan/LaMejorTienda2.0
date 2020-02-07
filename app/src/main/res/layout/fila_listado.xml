@@ -17,19 +17,19 @@
 
     <TextView
         android:id="@+id/tvNombre"
-        android:layout_width="180dp"
+        android:layout_width="205dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="3dp"
         android:layout_weight="1"
         android:textColor="#000000"
-        android:textSize="30sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tvP"
-        android:layout_width="115dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_weight="1"
         android:textAlignment="textEnd"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 </LinearLayout>

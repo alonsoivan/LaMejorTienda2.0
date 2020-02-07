@@ -2,14 +2,15 @@ package com.ivn.lamejortienda.activities;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,30 +23,32 @@ import com.ivn.lamejortienda.clases.Database;
 import com.ivn.lamejortienda.clases.Modelo;
 import com.ivn.lamejortienda.clases.ModeloAdapterListado;
 import com.ivn.lamejortienda.clases.Objetos;
-import com.ivn.lamejortienda.clases.Producto;
-import com.ivn.lamejortienda.clases.ProductoAdapterListado;
 import com.ivn.lamejortienda.clases.Usuario;
 import com.ivn.lamejortienda.clases.Util;
 
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 import static com.ivn.lamejortienda.clases.Objetos.URL_MODELOS_POR_MARCA;
-import static com.ivn.lamejortienda.clases.Objetos.cargarModelosPorMarca;
-import static com.ivn.lamejortienda.clases.Objetos.listaModelosPorMarca;
-import static com.ivn.lamejortienda.clases.Objetos.sem;
-
+import static com.ivn.lamejortienda.clases.Objetos.URL_SERVIDOR;
 
 public class ListadoActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private String usr;
 
-    private ArrayList<Modelo> modelos;
+    private ArrayList<Modelo> modelos;  // Todos
+    private List<Modelo> listaModelosPorMarca = new ArrayList<>();
 
     private ModeloAdapterListado adaptador;
     private Spinner spinnerOrden;
     private Spinner spinnerFiltro;
     private ListView listaModelos;
+    private ProgressBar pbLista;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,6 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
-
         adaptador = new ModeloAdapterListado(this,modelos);
 
         listaModelos.setAdapter(adaptador);
@@ -99,8 +101,10 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
         spinnerFiltro.setAdapter(adaptadorSpinnerFiltro);
         spinnerFiltro.setOnItemSelectedListener(this);
         spinnerOrden.setAdapter(adaptadorSpinnerOrden);
-        //spinnerOrden.setOnItemSelectedListener(this);
+        spinnerOrden.setOnItemSelectedListener(this);
 
+        // PROGRESSBAR
+        pbLista = findViewById(R.id.pbLista);
 
         // boton flotante para ir al carrito rápidamente
         FloatingActionButton carrito = findViewById(R.id.btCarrito);
@@ -118,32 +122,75 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
         // filtrar la lista por la marca que selecionen y
         // ordenar por lo que seleccionen, dos spinners
 
-        String marca = spinnerFiltro.getSelectedItem().toString();
+        switch (parent.getId()) {
+            case R.id.spinner_filtro:
 
-        // FALTA ORDENAR
+                String marca = spinnerFiltro.getSelectedItem().toString();
 
+                modelos.clear();
 
+                if (marca.equals("TODAS")) {
+                    modelos.addAll(Objetos.listaModelos);
+                    adaptador.notifyDataSetChanged();
+                } else {
+                    adaptador.notifyDataSetChanged();
+                    pbLista.setVisibility(View.VISIBLE);
+                    TareaDescarga t = new TareaDescarga();
+                    t.execute(URL_MODELOS_POR_MARCA, marca);
+                }
+                break;
+            case R.id.spinner_orden:
 
+                String orden = spinnerOrden.getSelectedItem().toString();
 
-        modelos.clear();
+                switch (orden) {
+                    case "PRECIO ASCENDENTE":
+                        modelos.sort(Comparator.comparing(Modelo::getPrecio));
+                        break;
+                    case "PRECIO DESCENDENTE":
+                        modelos.sort(Comparator.comparing(Modelo::getPrecio).reversed());
+                        break;
+                    case "POPULARIDAD":
+                        modelos.sort(Comparator.comparing(Modelo::getPopularidad).reversed());
+                        break;
+                    case "VENTAS":
+                        modelos.sort(Comparator.comparing(Modelo::getVentas).reversed());
+                        break;
+                }
+                adaptador.notifyDataSetChanged();
+                break;
+        }
+    }
 
-        try {
-            if(marca.equals("TODAS"))
-                modelos.addAll(Objetos.listaModelos);
-            else {
-                cargarModelosPorMarca(URL_MODELOS_POR_MARCA, marca);
-                sem.acquire();
-                modelos.addAll(listaModelosPorMarca);
-            }
+    class TareaDescarga extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-            // ORDENAR, orden ascendente
-            //modelos.sort(Comparator.comparing(Modelo::getVentas));
+            listaModelosPorMarca.clear();
+            listaModelosPorMarca.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_MODELOS_POR_MARCA + params[1], Modelo[].class)));
 
+            return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... progreso) {
+            super.onProgressUpdate(progreso);
+        }
+
+        @Override
+        protected void onPostExecute(Void resultado) {
+            super.onPostExecute(resultado);
+            modelos.addAll(listaModelosPorMarca);
             adaptador.notifyDataSetChanged();
-        } catch (InterruptedException e) { e.printStackTrace(); }
-
-
-
+            pbLista.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

@@ -10,15 +10,12 @@ import java.util.Arrays;
 import static com.ivn.lamejortienda.clases.Objetos.URL_MARCAS;
 import static com.ivn.lamejortienda.clases.Objetos.URL_MODELO;
 import static com.ivn.lamejortienda.clases.Objetos.URL_MODELOS;
-import static com.ivn.lamejortienda.clases.Objetos.URL_MODELOS_POR_MARCA;
 import static com.ivn.lamejortienda.clases.Objetos.URL_SERVIDOR;
 import static com.ivn.lamejortienda.clases.Objetos.URL_USUARIOS;
 import static com.ivn.lamejortienda.clases.Objetos.diccionarioModelos;
 import static com.ivn.lamejortienda.clases.Objetos.listaMarcas;
 import static com.ivn.lamejortienda.clases.Objetos.listaModelos;
-import static com.ivn.lamejortienda.clases.Objetos.listaModelosPorMarca;
 import static com.ivn.lamejortienda.clases.Objetos.modelo;
-import static com.ivn.lamejortienda.clases.Objetos.sem;
 
 
 public class TareaDescarga extends AsyncTask<String, Void, Void> {
@@ -58,12 +55,6 @@ public class TareaDescarga extends AsyncTask<String, Void, Void> {
                     modelo = restTemplate.getForObject(URL_SERVIDOR + params[0] + params[1], Modelo.class);
                     System.out.println(modelo.getNombre());
                     break;
-                case URL_MODELOS_POR_MARCA:
-                    listaModelosPorMarca.clear();
-                    listaModelosPorMarca.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + params[0] + params[1], Modelo[].class)));
-                    System.out.println(listaModelosPorMarca.size()+" = E-E-E-E-E--E-E-E+E+E+E++E+E+E+E++E+E+E= TAMAÑO ARRAYLIST MODELOS POR RMARCA");
-                    sem.release();
-                    break;
 
             }
 
@@ -74,35 +65,18 @@ public class TareaDescarga extends AsyncTask<String, Void, Void> {
         return null;
     }
 
-    /*
-     * Este método se ejecuta cuando se cancela la tarea
-     * Permite interactuar con la GUI
-     */
     @Override
     protected void onCancelled() {
         super.onCancelled();
     }
 
-    /*
-     * Este método se ejecuta a medida que avanza la tarea
-     * Permite, por ejemplo, actualizar parte de la GUI para
-     * que el usuario pueda ver el avance de la misma
-     */
     @Override
     protected void onProgressUpdate(Void... progreso) {
         super.onProgressUpdate(progreso);
     }
 
-    /*
-     * Este método se ejecuta automáticamente cuando la tarea
-     * termina (cuando termina el método ''doInBackground'')
-     * Permite interactuar con la GUI con lo que podemos comunicar
-     * al usuario la finalización de la tarea o mensajes de error
-     * si proceden
-     */
     @Override
     protected void onPostExecute(Void resultado) {
         super.onPostExecute(resultado);
-
     }
 }

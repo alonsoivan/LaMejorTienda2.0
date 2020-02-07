@@ -149,6 +149,7 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(new Intent(this, MapaActivity.class));
 
                 }else
+                    startActivity(new Intent(this, MapaActivity.class));  // provisional
                     Toast.makeText(this, R.string.cesta_vacia ,Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvUsr:

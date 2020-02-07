@@ -29,6 +29,7 @@ public class ProductoActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producto);
 
+        // quitar?
         Database db = new Database(this);
         //Producto producto = db.getProducto(getIntent().getLongExtra("idModelo",1));
         //getIntent().getIntExtra("idModelo",1)
@@ -60,6 +61,7 @@ public class ProductoActivity extends AppCompatActivity implements View.OnClickL
 
         TextView tvUsr = findViewById(R.id.tvUsr);
 
+        // quitar?
         if(usr != null) {
             Usuario usuario = db.getUsuario(usr);
 

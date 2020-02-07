@@ -53,6 +53,7 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void ponerFotos(){
+        // poner la desc de los objetos sobre los imageview , no en el diseño //
         if(listaMarcas.size()>0) {
             marca1.setImageBitmap(listaMarcas.get(0).getBitmap());
             marca2.setImageBitmap(listaMarcas.get(1).getBitmap());
@@ -98,8 +99,6 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
             case R.id.modelo4:
 
                 int id = Integer.parseInt(findViewById(v.getId()).getContentDescription().toString());
-
-                // pasas la desc del producto sobre el que haya pulsado para ir a el
 
                 intentModelo.putExtra("idModelo",id );
                 startActivity(intentModelo);

@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -44,16 +44,18 @@ import java.util.List;
 
 public class MapaActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
-    private static final String TAG = MapaActivity.class.getSimpleName();
-
-
     private boolean modo = false;  // Para ver en que modo esta: claro-oscuro
     private MapView mapView;
     private GoogleMap googleMap;
     LatLng tienda = new LatLng(40.394257, -3.745465);
-    private String mode = "";      // Incida el modo de ruta: andando, en coche..
+    private String mode;      // Incida el modo de ruta: andando, en coche..
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+
+    FloatingActionButton btModo;
+    FloatingActionButton btAndar;
+    FloatingActionButton btCoche;
+    FloatingActionButton btIr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,17 +74,10 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mapView.getMapAsync(this);
 
-
-        FloatingActionButton btIr = findViewById(R.id.btIr);
-        btIr.setOnClickListener(this);
-        FloatingActionButton btCoche = findViewById(R.id.btCoche);
-        btCoche.setOnClickListener(this);
-        FloatingActionButton btBus = findViewById(R.id.btBus);
-        btBus.setOnClickListener(this);
-        FloatingActionButton btAndar = findViewById(R.id.btAndar);
-        btAndar.setOnClickListener(this);
-        FloatingActionButton btModo = findViewById(R.id.btModo);
-        btModo.setOnClickListener(this);
+        btIr = findViewById(R.id.btIr);
+        btCoche = findViewById(R.id.btCoche);
+        btAndar = findViewById(R.id.btAndar);
+        btModo = findViewById(R.id.btModo);
     }
 
     @Override
@@ -101,6 +96,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                 googleMap.clear();
                 googleMap.addMarker(new MarkerOptions().position(tienda).title("LMT2.0").snippet("Abierto L-V"));
                 new MapaActivity.DownloadTask().execute(getDirectionsUrl());
+
                 break;
             case R.id.btCoche:
                 Toast.makeText(this,"Modo = Conduciendo",Toast.LENGTH_SHORT).show();
@@ -110,10 +106,6 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(this,"Modo = Andando",Toast.LENGTH_SHORT).show();
                 mode = "mode=walking";
                 break;
-            case R.id.btBus:
-                Toast.makeText(this,"Modo = Transporte Público",Toast.LENGTH_SHORT).show();
-                mode = "Transit";
-                break;
         }
     }
 
@@ -122,17 +114,23 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap = map;
 
         map.addMarker(new MarkerOptions().position(tienda).title("LMT2.0").snippet("Abierto L-V"));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(tienda, 16));
-
-        //Disable Map Toolbar and compass:
-        map.getUiSettings().setMapToolbarEnabled(false);
-        map.getUiSettings().setCompassEnabled(false);
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(tienda, 16));
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+
+        //Disable Map Toolbar and compass:
+        map.getUiSettings().setMapToolbarEnabled(false);
+        map.getUiSettings().setCompassEnabled(false);
+        map.getUiSettings().setMyLocationButtonEnabled(false);
+
+        btModo.setOnClickListener(this);
+        btIr.setOnClickListener(this);
+        btCoche.setOnClickListener(this);
+        btAndar.setOnClickListener(this);
     }
 
 
@@ -154,7 +152,6 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
             new MapaActivity.ParserTask().execute(result);
         }
     }
@@ -186,7 +183,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
             ArrayList points = null;
             PolylineOptions lineOptions = null;
-            MarkerOptions markerOptions = new MarkerOptions();
+            //MarkerOptions markerOptions = new MarkerOptions();
 
             for (int i = 0; i < result.size(); i++) {
                 points = new ArrayList();
@@ -231,11 +228,16 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
             Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             longitude = location.getLongitude();
             latitude = location.getLatitude();
+
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
 
+        // Mover cam a ubicación actual
+        LatLng location = new LatLng(latitude,longitude);
+
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
 
         // Origin of route
         String str_origin = "origin=" + latitude + "," + longitude;
@@ -244,7 +246,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         String str_dest = "destination=" + tienda.latitude + "," + tienda.longitude;
 
         // Sensor enabled
-        String sensor = "sensor=false";
+        String sensor = "sensor=true";
 
         //String mode = "mode=walking";
 

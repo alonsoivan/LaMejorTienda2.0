@@ -35,37 +35,20 @@
         app:srcCompat="@drawable/cursor_mapa" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btBus"
+        android:id="@+id/btCoche"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="460dp"
-        android:layout_marginBottom="190dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/bus2"
+        android:src="@drawable/coche11"
         app:backgroundTint="#FFEB3B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btCoche"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/coche11"
-        app:backgroundTint="#FFEB3B"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btBus" />
+        app:layout_constraintTop_toBottomOf="@+id/btModo"
+        app:layout_constraintVertical_bias="0.813" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btAndar"
@@ -93,12 +76,10 @@
         android:layout_marginTop="20dp"
         android:clickable="true"
         app:backgroundTint="#FFEB3B"
-        app:layout_constraintBottom_toTopOf="@+id/btBus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/modo_noche" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

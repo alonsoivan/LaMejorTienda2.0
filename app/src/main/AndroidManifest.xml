@@ -21,8 +21,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".activities.SplashMainActivity"
+        <activity
+            android:name=".activities.PreferenciasActivity"
+            android:label="@string/title_activity_preferencias"></activity>
+        <activity
+            android:name=".activities.SplashMainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,7 +48,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".activities.AcercaDeActivity" />
+        <activity android:name=".activities.PruebasActivity" />
         <activity
             android:name=".activities.CestaActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- android:theme="@style/Theme.AppCompat.Light.NoActionBar" -->
@@ -58,9 +61,7 @@
         <activity android:name=".activities.DestacadosActivity" />
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

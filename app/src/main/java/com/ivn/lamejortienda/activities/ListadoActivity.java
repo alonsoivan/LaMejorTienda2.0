@@ -95,8 +95,8 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
         spinnerOrden = findViewById(R.id.spinner_orden);
         spinnerFiltro = findViewById(R.id.spinner_filtro);
 
-        ArrayAdapter adaptadorSpinnerFiltro = ArrayAdapter.createFromResource(this,R.array.filtroMarcas,android.R.layout.simple_spinner_dropdown_item);
-        ArrayAdapter adaptadorSpinnerOrden = ArrayAdapter.createFromResource(this,R.array.ordenLista,android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter adaptadorSpinnerFiltro = ArrayAdapter.createFromResource(this,R.array.filtroMarcas,R.layout.spinner_item);
+        ArrayAdapter adaptadorSpinnerOrden = ArrayAdapter.createFromResource(this,R.array.ordenLista,R.layout.spinner_item);
 
         spinnerFiltro.setAdapter(adaptadorSpinnerFiltro);
         spinnerFiltro.setOnItemSelectedListener(this);
@@ -184,10 +184,29 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
             super.onProgressUpdate(progreso);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected void onPostExecute(Void resultado) {
             super.onPostExecute(resultado);
             modelos.addAll(listaModelosPorMarca);
+
+            String orden = spinnerOrden.getSelectedItem().toString();
+
+            switch (orden) {
+                case "PRECIO ASCENDENTE":
+                    modelos.sort(Comparator.comparing(Modelo::getPrecio));
+                    break;
+                case "PRECIO DESCENDENTE":
+                    modelos.sort(Comparator.comparing(Modelo::getPrecio).reversed());
+                    break;
+                case "POPULARIDAD":
+                    modelos.sort(Comparator.comparing(Modelo::getPopularidad).reversed());
+                    break;
+                case "VENTAS":
+                    modelos.sort(Comparator.comparing(Modelo::getVentas).reversed());
+                    break;
+            }
+
             adaptador.notifyDataSetChanged();
             pbLista.setVisibility(View.INVISIBLE);
         }

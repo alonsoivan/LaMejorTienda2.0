@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorFondo"
     tools:context=".activities.LoginActivity">
 
     <LinearLayout
@@ -41,6 +42,8 @@
             android:paddingStart="20dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/textColor"
             android:textSize="24sp" />
 
         <EditText
@@ -55,6 +58,8 @@
             android:paddingStart="20dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/textColor"
             android:textSize="24sp" />
 
         <LinearLayout
@@ -71,7 +76,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/recordar"
-                android:textColor="#020101"
+                android:textColor="@color/textColor"
                 android:textSize="24sp" />
 
             <Button
@@ -80,13 +85,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/edittext_rounded_corners_border"
-                android:backgroundTint="#FFEB3B"
+                android:backgroundTint="@color/colorPrimary"
                 android:paddingLeft="10dp"
                 android:paddingTop="20dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="20dp"
                 android:text="@string/acceder"
 
+                android:textColor="@color/textColor"
                 android:textSize="24sp" />
 
 
@@ -100,7 +106,7 @@
             android:paddingBottom="20dp"
             android:text="@string/aun_no_registrado"
             android:textAlignment="center"
-            android:textColor="#000000"
+            android:textColor="@color/textColor"
             android:textSize="30sp" />
 
         <Button
@@ -108,11 +114,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_rounded_corners_border"
-            android:backgroundTint="#FFEB3B"
+            android:backgroundTint="@color/colorPrimary"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:text="@string/registrar"
 
+            android:textColor="@color/textColor"
             android:textSize="24sp" />
 
         <Button
@@ -121,11 +128,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/edittext_rounded_corners_border"
-            android:backgroundTint="#FFEB3B"
+            android:backgroundTint="@color/colorPrimary"
 
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:text="@string/acceder_sin_registrar"
+            android:textColor="@color/textColor"
             android:textSize="24sp" />
     </LinearLayout>
 

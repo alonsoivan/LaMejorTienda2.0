@@ -58,7 +58,7 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
             marca1.setImageBitmap(listaMarcas.get(0).getBitmap());
             marca2.setImageBitmap(listaMarcas.get(1).getBitmap());
             marca3.setImageBitmap(listaMarcas.get(2).getBitmap());
-            marca4.setImageBitmap(listaMarcas.get(3).getBitmap());
+            marca4.setImageBitmap(listaMarcas.get(4).getBitmap());
         }else
             Toast.makeText(this,"Conexión fallida con el servidor.",Toast.LENGTH_SHORT).show();
 
@@ -118,14 +118,18 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case R.id.action_bar_preferencias:
+                Intent in = new Intent(this, PreferenciasActivity.class);
+                startActivity(in);
+                break;
             case R.id.action_bar_acerca_de:
-
                 /*
-                Intent acercaDe = new Intent(this,AcercaDeActivity.class);
+                Intent acercaDe = new Intent(this,PruebasActivity.class);
                 acercaDe.putExtra("usr",usr);
                 startActivity(acercaDe);
                 */
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AlertDialogStyle);
                 builder.setTitle(R.string.acerca_de );
                 builder.setMessage(R.string.acerca_de_mensaje);
                 builder.setNeutralButton(R.string.volver ,new DialogInterface.OnClickListener() {

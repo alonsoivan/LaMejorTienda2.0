@@ -28,7 +28,7 @@
     <string name="nombre_producto_pordefecto">Default product name</string>
     <string name="precio">Price :</string>
     <string name="comprar">Buy</string>
-    <string name="descipci_n">Description</string>
+    <string name="info_producto">Description</string>
     <string name="des_producto_pordefecto">Default item description.</string>
     <string name="btMas">+</string>
     <string name="btMenos">-</string>

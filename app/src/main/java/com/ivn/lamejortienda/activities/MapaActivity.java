@@ -1,13 +1,17 @@
 package com.ivn.lamejortienda.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -92,10 +96,23 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                     googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.modo_normal));
                     modo = !modo;
                 }
+                googleMap.clear();
+                googleMap.addMarker(new MarkerOptions().position(tienda).title("LMT2.0").snippet("Abierto L-V"));
+                new MapaActivity.DownloadTask().execute(getDirectionsUrl());
+                break;
             case R.id.btIr:
                 googleMap.clear();
                 googleMap.addMarker(new MarkerOptions().position(tienda).title("LMT2.0").snippet("Abierto L-V"));
                 new MapaActivity.DownloadTask().execute(getDirectionsUrl());
+
+                // Mover cam a ubicación actual
+                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+                @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                LatLng lt = new LatLng(location.getLatitude(),location.getLongitude());
+
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lt, 16));
 
                 break;
             case R.id.btCoche:
@@ -122,7 +139,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
-        //Disable Map Toolbar and compass:
+        //Disable Map Toolbar and compass and locationButton:
         map.getUiSettings().setMapToolbarEnabled(false);
         map.getUiSettings().setCompassEnabled(false);
         map.getUiSettings().setMyLocationButtonEnabled(false);
@@ -132,7 +149,6 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         btCoche.setOnClickListener(this);
         btAndar.setOnClickListener(this);
     }
-
 
     private class DownloadTask extends AsyncTask<String, Void, String> {
 
@@ -204,9 +220,9 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                 lineOptions.addAll(points);
                 lineOptions.width(15);
                 if (modo)
-                    lineOptions.color(Color.rgb(255, 235, 59));
+                    lineOptions.color(Color.rgb(255, 211, 105));
                 else
-                    lineOptions.color(Color.rgb(3, 68, 255));
+                    lineOptions.color(Color.rgb(1, 86, 104));
 
                 lineOptions.geodesic(true);
 
@@ -219,28 +235,31 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String getDirectionsUrl() {
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        double longitude = 0;
-        double latitude = 0;
+        Location location = null;
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED  && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
+
+            SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
+
+            String provider = preferencias.getString("opcion_ubicacion","GPS");
+            System.out.println(provider);
+
+            if(provider.equals("GPS")) {
+                location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if(location == null)
+                    location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }else
+                location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
 
-        // Mover cam a ubicación actual
-        LatLng location = new LatLng(latitude,longitude);
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
 
         // Origin of route
-        String str_origin = "origin=" + latitude + "," + longitude;
+        String str_origin = "origin=" + location.getLatitude() + "," + location.getLongitude();
 
         // Destination of route
         String str_dest = "destination=" + tienda.latitude + "," + tienda.longitude;

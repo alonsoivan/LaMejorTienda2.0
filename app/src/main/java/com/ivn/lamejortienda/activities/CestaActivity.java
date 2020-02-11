@@ -108,48 +108,42 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.btFinalizarYComprar:
                 if(modelosCesta.size()>0){
-                    /*
+
                     if(usr != null) {
                         // Dialogo
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
                         builder.setTitle(R.string.finalizar_y_pagar);
                         builder.setMessage(R.string.pregunta_finalizar_compra);
-                        builder.setPositiveButton(R.string.finalizar_y_comprar, new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("Recogida en tienda", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Database db = new Database(getApplicationContext());
-                                for (Producto producto : productos) {
-                                    producto.setCesta(false);
-                                    producto.setCantidad(1);
-                                    db.modificarProducto(producto);
-                                }
-                                productos.clear();
+
+                                startActivity(new Intent(getApplicationContext(), MapaActivity.class));
+
+                                modelosCesta.clear();
                                 adaptador.notifyDataSetChanged();
 
-                                //Actualziar precio total
-                                total = 0;
-                                for (Producto producto1 : productos)
-                                    total += (producto1.getPrecio() * producto1.getCantidad());
-
-                                ((TextView) findViewById(R.id.tvTotal)).setText(Util.format(total));
-
-                                Toast.makeText(getApplicationContext(), R.string.compra_exitosa, Toast.LENGTH_SHORT).show();
+                                ((TextView) findViewById(R.id.tvTotal)).setText(Util.format(0));
                             }
                         });
-                        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton("Envio a domicilio", new DialogInterface.OnClickListener() {
+
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
+                                Toast.makeText(getApplicationContext(), R.string.compra_exitosa, Toast.LENGTH_SHORT).show();
+
+                                modelosCesta.clear();
+                                adaptador.notifyDataSetChanged();
+
+                                ((TextView) findViewById(R.id.tvTotal)).setText(Util.format(0));
                             }
+
                         });
                         builder.create().show();
                     }else
                         Toast.makeText(this, R.string.debe_iniciar_sesion ,Toast.LENGTH_SHORT).show();
 
-                     */
-
-                    startActivity(new Intent(this, MapaActivity.class));
 
                 }else
-                    startActivity(new Intent(this, MapaActivity.class));  // provisional
                     Toast.makeText(this, R.string.cesta_vacia ,Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvUsr:

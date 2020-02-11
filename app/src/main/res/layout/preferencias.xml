@@ -1,0 +1,32 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <PreferenceCategory android:title="General">
+
+        <CheckBoxPreference
+            android:key="opcion_ver_informacion"
+            android:summary="Ver información detallada de un modelo."
+            android:title="Información detallada" />
+
+        <ListPreference
+            android:dialogTitle="Obtener ubicación"
+            android:entries="@array/datos"
+            android:entryValues="@array/datos"
+            android:key="opcion_ubicacion"
+            android:summary="Cuando la aplicación lo necesite, se accedera a la ubicación a traves de:"
+            android:title="Obtener ubicación" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Apariencia">
+
+        <SwitchPreference
+            android:dialogTitle="Modo noche"
+            android:key="opcion_modo"
+            android:title="Modo oscuro"
+            android:summary=""/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

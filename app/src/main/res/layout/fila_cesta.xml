@@ -31,7 +31,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:text=""
-            android:textColor="#000000"
+            android:textColor="@color/textColor"
             android:textSize="30sp" />
 
         <LinearLayout
@@ -47,6 +47,8 @@
                 android:layout_weight="1"
                 android:longClickable="false"
                 android:text="@string/btMenos"
+                android:textColor="@color/textColor"
+                android:backgroundTint="@color/colorPrimary"
                 android:textSize="24sp" />
 
             <TextView
@@ -56,7 +58,7 @@
                 android:layout_margin="5dp"
                 android:text=""
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="@color/textColor"
                 android:textSize="25sp" />
 
             <Button
@@ -64,8 +66,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#FFEB3B"
+                android:backgroundTint="@color/colorPrimary"
                 android:text="@string/btMas"
+                android:textColor="@color/textColor"
                 android:textSize="24sp" />
         </LinearLayout>
 
@@ -78,6 +81,7 @@
         android:layout_margin="5dp"
         android:text=""
         android:textAlignment="textEnd"
+        android:textColor="@color/textColor"
         android:textSize="20sp" />
 
 </LinearLayout>

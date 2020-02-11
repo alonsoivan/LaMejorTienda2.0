@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1057973115398",
+    "firebase_url": "https://lamejortienda.firebaseio.com",
+    "project_id": "lamejortienda",
+    "storage_bucket": "lamejortienda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057973115398:android:fe8867be50df7a2c498187",
+        "android_client_info": {
+          "package_name": "com.ivn.lamejortienda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057973115398-r7ludrkh4ml5pq0l44p49gj1e36etksm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeTuNfdQaQUCqD4PfT0Ra24W_6caJKGvw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057973115398-r7ludrkh4ml5pq0l44p49gj1e36etksm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

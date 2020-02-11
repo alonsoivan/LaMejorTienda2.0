@@ -31,7 +31,7 @@ import static com.ivn.lamejortienda.clases.Objetos.listaModelos;
 
 public class SplashMainActivity extends AppCompatActivity {
 
-    private final int DURACION_SPLASH = 400;
+    private final int DURACION_SPLASH = 500;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,12 @@ public class SplashMainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     public class TareaDescarga extends AsyncTask<String, Void, Void> {
 
         @Override
@@ -73,6 +79,9 @@ public class SplashMainActivity extends AppCompatActivity {
 
             listaMarcas.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_MARCAS, Marca[].class)));
             listaModelos.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_MODELOS, Modelo[].class)));
+
+            System.out.println(listaMarcas.get(0).getLogo());
+            System.out.println();
 
             for(Modelo m : listaModelos)
                 diccionarioModelos.put(m.getId(),m);

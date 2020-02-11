@@ -1,0 +1,6 @@
+<resources>
+    <string-array name="datos">
+        <item>GPS</item>
+        <item>INTERNET</item>
+    </string-array>
+</resources>

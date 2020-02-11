@@ -7,8 +7,10 @@
         android:title=""
         app:showAsAction="always" />
 
+    <item android:id="@+id/action_bar_preferencias"
+        android:title="Preferencias"/>
+
     <item android:id="@+id/action_bar_acerca_de"
         android:title="Acerca de"/>
-
 
 </menu>

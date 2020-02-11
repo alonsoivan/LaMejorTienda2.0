@@ -1,8 +1,10 @@
 package com.ivn.lamejortienda.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -42,8 +44,16 @@ public class ProductoActivity extends AppCompatActivity implements View.OnClickL
         TextView tvPrecio = findViewById(R.id.tvPrecio);
         tvPrecio.setText(Util.format(modelo.getPrecio()));
 
-        TextView tvDes = findViewById(R.id.tvDes);
-        tvDes.setText(modelo.getDescripcion());
+
+        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean info = preferencias.getBoolean("opcion_ver_informacion",false);
+        if(info) {
+            TextView tvDes = findViewById(R.id.tvDes);
+            tvDes.setText(modelo.getDescripcion());
+        }else {
+            TextView tvTituloDes = findViewById(R.id.tvTituloDes);
+            tvTituloDes.setText("");
+        }
 
         ImageView ivProducto = findViewById(R.id.ivProducto);
         ivProducto.setImageBitmap(modelo.getBitmap());

@@ -26,7 +26,7 @@ import com.ivn.lamejortienda.clases.Usuario;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private int RESULTADO_CARGA_IMAGEN = 1;
     private String urlFotoUsuario = "";
-
+    public static Uri imagenSeleccionada;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if ((requestCode == RESULTADO_CARGA_IMAGEN) && (resultCode == RESULT_OK) && (data != null)) {
             // Obtiene el Uri de la imagen seleccionada por el usuario
-            Uri imagenSeleccionada = data.getData();
+            imagenSeleccionada = data.getData();
             String[] ruta = {MediaStore.Images.Media.DATA };
 
             // Realiza una consulta a la galería de imágenes solicitando la imagen seleccionada

@@ -22,9 +22,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 
-import static com.ivn.lamejortienda.clases.Objetos.URL_MARCAS;
-import static com.ivn.lamejortienda.clases.Objetos.URL_MODELOS;
-import static com.ivn.lamejortienda.clases.Objetos.URL_SERVIDOR;
+import static com.ivn.lamejortienda.clases.Constantes.URL_MARCAS;
+import static com.ivn.lamejortienda.clases.Constantes.URL_MODELOS;
+import static com.ivn.lamejortienda.clases.Constantes.URL_SERVIDOR;
 import static com.ivn.lamejortienda.clases.Objetos.diccionarioModelos;
 import static com.ivn.lamejortienda.clases.Objetos.listaMarcas;
 import static com.ivn.lamejortienda.clases.Objetos.listaModelos;
@@ -105,9 +105,7 @@ public class SplashMainActivity extends AppCompatActivity {
             Intent intent = new Intent(SplashMainActivity.this, LoginActivity.class);
             startActivity(intent);
 
-            Toast.makeText(getApplicationContext(), "carga ok!", Toast.LENGTH_SHORT).show();
-
-
+            //Toast.makeText(getApplicationContext(), "carga ok!", Toast.LENGTH_SHORT).show();
         }
     }
 

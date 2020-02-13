@@ -1,7 +1,6 @@
 package com.ivn.lamejortienda.activities;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import com.ivn.lamejortienda.clases.Database;
 import com.ivn.lamejortienda.clases.Modelo;
 import com.ivn.lamejortienda.clases.ModeloAdapterListado;
 import com.ivn.lamejortienda.clases.Objetos;
-import com.ivn.lamejortienda.clases.Usuario;
 import com.ivn.lamejortienda.clases.Util;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -34,8 +32,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.ivn.lamejortienda.clases.Objetos.URL_MODELOS_POR_MARCA;
-import static com.ivn.lamejortienda.clases.Objetos.URL_SERVIDOR;
+import static com.ivn.lamejortienda.clases.Constantes.URL_MODELOS_POR_MARCA;
+import static com.ivn.lamejortienda.clases.Constantes.URL_SERVIDOR;
+
 
 public class ListadoActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
@@ -57,18 +56,13 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
 
         usr = getIntent().getStringExtra("usr");
 
-        // Usuario
+
         TextView tvUsr = findViewById(R.id.tvUsr);
-
-        if(usr != null) {
-            Database db = new Database(this);
-            ImageView ivUsr = findViewById(R.id.ivUsr);
-
-            Usuario usuario = db.getUsuario(usr);
-            ivUsr.setImageBitmap(BitmapFactory.decodeFile(usuario.getUrlfoto()));
-            tvUsr.setText(usuario.getUsuario());
-        }
         tvUsr.setOnClickListener(this);
+        // Usuario
+        if(usr != null)
+            tvUsr.setText(usr);
+
 
         modelos = new ArrayList<>();
 

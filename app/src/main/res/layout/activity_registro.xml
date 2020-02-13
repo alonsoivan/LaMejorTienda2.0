@@ -23,9 +23,9 @@
 
         <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="match_parent"
-            android:layout_height="145dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_marginBottom="60dp"
             android:cropToPadding="false"
             app:srcCompat="@drawable/logo"
             tools:srcCompat="@drawable/logo" />
@@ -35,7 +35,7 @@
             android:id="@+id/etUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/edittext_rounded_corners_border"
             android:ems="10"
             android:hint="@string/username"
@@ -63,77 +63,33 @@
             android:textColorHint="#9B9B9B"
             android:textSize="24sp" />
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/etRepetirPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:paddingTop="10dp">
-
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="@string/recordar"
-                android:textColor="@color/textColor"
-                android:textSize="24sp" />
-
-            <Button
-                android:id="@+id/btAcceder"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/edittext_rounded_corners_border"
-                android:backgroundTint="@color/colorPrimary"
-                android:paddingLeft="10dp"
-                android:paddingTop="20dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="20dp"
-                android:text="@string/acceder"
-
-                android:textColor="@color/textColor"
-                android:textSize="24sp" />
-
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edittext_rounded_corners_border"
+            android:ems="10"
+            android:hint="Repetir contraseña"
+            android:inputType="textPassword"
+            android:paddingStart="20dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:text="@string/aun_no_registrado"
-            android:textAlignment="center"
             android:textColor="@color/textColor"
-            android:textSize="30sp" />
+            android:textColorHint="#9B9B9B"
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/btRegistrar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="65dp"
             android:background="@drawable/edittext_rounded_corners_border"
             android:backgroundTint="@color/colorPrimary"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
+
             android:text="@string/registrar"
-
-            android:textColor="@color/textColor"
-            android:textSize="24sp" />
-
-        <Button
-            android:id="@+id/btAccederSinRegistrar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edittext_rounded_corners_border"
-            android:backgroundTint="@color/colorPrimary"
-
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:text="@string/acceder_sin_registrar"
             android:textColor="@color/textColor"
             android:textSize="24sp" />
 
@@ -142,13 +98,13 @@
     <ProgressBar
         android:id="@+id/pbLogin"
         style="?android:attr/progressBarStyle"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.38" />
+        app:layout_constraintVertical_bias="0.86" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,14 +3,13 @@ package com.ivn.lamejortienda.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,14 +17,23 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ivn.lamejortienda.R;
-import com.ivn.lamejortienda.clases.Database;
 import com.ivn.lamejortienda.clases.Modelo;
 import com.ivn.lamejortienda.clases.ModeloAdapterCesta;
 import com.ivn.lamejortienda.clases.Objetos;
 import com.ivn.lamejortienda.clases.Usuario;
 import com.ivn.lamejortienda.clases.Util;
 
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import static com.ivn.lamejortienda.clases.Constantes.URL_CESTA_USUARIO;
+import static com.ivn.lamejortienda.clases.Constantes.URL_NUEVO_USUARIO;
+import static com.ivn.lamejortienda.clases.Constantes.URL_SERVIDOR;
 
 public class CestaActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,18 +51,13 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
 
         usr = getIntent().getStringExtra("usr");
 
+        new TareaGetCestaUsuario().execute(URL_CESTA_USUARIO,usr);
+
         // Usuario
         TextView tvUsr = findViewById(R.id.tvUsr);
-
-        if(usr != null) {
-            Database db = new Database(this);
-            ImageView ivUsr = findViewById(R.id.ivUsr);
-
-            Usuario usuario = db.getUsuario(usr);
-            ivUsr.setImageBitmap(BitmapFactory.decodeFile(usuario.getUrlfoto()));
-            tvUsr.setText(usuario.getUsuario());
-        }
         tvUsr.setOnClickListener(this);
+        if(usr != null)
+            tvUsr.setText(usr);
 
 
         Button btCancelar = findViewById(R.id.btCancelar);
@@ -70,13 +73,6 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
         registerForContextMenu(lvModelos);
         adaptador = new ModeloAdapterCesta(this,modelosCesta);
         lvModelos.setAdapter(adaptador);
-
-
-        for (Modelo m: Objetos.listaModelos)
-            if (m.isCesta())
-                modelosCesta.add(m);
-
-        adaptador.notifyDataSetChanged();
 
 
         // Obtener el precio total de la cesta
@@ -180,8 +176,8 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
                 builder.setPositiveButton(R.string.eliminar ,   new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Objetos.listaModelos.get(Objetos.listaModelos.indexOf(modelo)).setCesta(false);
-                        Objetos.listaModelos.get(Objetos.listaModelos.indexOf(modelo)).setCantidad(1);
+                        //Objetos.listaModelos.get(Objetos.listaModelos.indexOf(modelo)).setCesta(false);
+                        //Objetos.listaModelos.get(Objetos.listaModelos.indexOf(modelo)).setCantidad(1);
 
                         modelosCesta.remove(modelo);
 
@@ -207,5 +203,38 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
                 return super.onContextItemSelected(item);
         }
         return super.onContextItemSelected(item);
+    }
+
+    public class TareaGetCestaUsuario extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+            modelosCesta.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_CESTA_USUARIO + params[1] , Modelo[].class)));
+
+            return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... progreso) {
+            super.onProgressUpdate(progreso);
+        }
+
+        @Override
+        protected void onPostExecute(Void resultado) {
+            super.onPostExecute(resultado);
+            adaptador.notifyDataSetChanged();
+            for (Modelo modelo: modelosCesta)
+                total += (modelo.getPrecio()*modelo.getCantidad());
+
+            tvTotal.setText(Util.format(total));
+        }
     }
 }

@@ -21,9 +21,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activities.RegistroActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name=".activities.PreferenciasActivity"
-            android:label="@string/title_activity_preferencias"></activity>
+            android:label="@string/title_activity_preferencias" />
         <activity
             android:name=".activities.SplashMainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -61,7 +63,7 @@
         <activity android:name=".activities.DestacadosActivity" />
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

@@ -22,5 +22,7 @@ public class Constantes {
     public static final String URL_AÑADIR_CESTA = "/añadir_cesta?usuario=";
     public static final String URL_ESTA_EN_CESTA = "/esta_en_cesta?usuario=";
     public static final String URL_CESTA_USUARIO = "/cesta_usuario?usuario=";
+    public static final String URL_REALIZAR_PEDIDO = "/realizar_pedido?usuario=";
+    public static final String URL_ELIMINAR_MODELO_CESTA = "/eliminar_modelo_cesta?usuario=";
 
 }

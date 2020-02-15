@@ -105,7 +105,7 @@ public class SplashMainActivity extends AppCompatActivity {
             Intent intent = new Intent(SplashMainActivity.this, LoginActivity.class);
             startActivity(intent);
 
-            //Toast.makeText(getApplicationContext(), "carga ok!", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 

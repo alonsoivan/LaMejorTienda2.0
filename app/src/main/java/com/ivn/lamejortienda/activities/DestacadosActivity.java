@@ -3,6 +3,8 @@ package com.ivn.lamejortienda.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,10 +12,23 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ivn.lamejortienda.R;
+import com.ivn.lamejortienda.clases.Marca;
+import com.ivn.lamejortienda.clases.Modelo;
 
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+import static com.ivn.lamejortienda.clases.Constantes.URL_MARCAS;
+import static com.ivn.lamejortienda.clases.Constantes.URL_MODELOS;
+import static com.ivn.lamejortienda.clases.Constantes.URL_SERVIDOR;
+import static com.ivn.lamejortienda.clases.Objetos.diccionarioModelos;
 import static com.ivn.lamejortienda.clases.Objetos.listaMarcas;
 import static com.ivn.lamejortienda.clases.Objetos.listaModelos;
 
@@ -49,8 +64,12 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
         modelo3 = findViewById(R.id.modelo3);
         modelo4 = findViewById(R.id.modelo4);
 
-        ponerFotos();
+        if(listaModelos.size() == 0 || listaMarcas.size() == 0)
+            new TareaDescargaMarcasYModelos().execute();
+        else
+            ponerFotos();
     }
+
 
     public void ponerFotos(){
         // poner la desc de los objetos sobre los imageview , no en el diseño //
@@ -62,11 +81,19 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
         }else
             Toast.makeText(this,"Conexión fallida con el servidor.",Toast.LENGTH_SHORT).show();
 
+
         if(listaModelos.size()>0){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                listaModelos.sort(Comparator.comparing(Modelo::getPopularidad).reversed());
+            }
             modelo1.setImageBitmap(listaModelos.get(0).getBitmap());
+            modelo1.setContentDescription(String.valueOf(listaModelos.get(0).getId()));
             modelo2.setImageBitmap(listaModelos.get(1).getBitmap());
+            modelo2.setContentDescription(String.valueOf(listaModelos.get(1).getId()));
             modelo3.setImageBitmap(listaModelos.get(2).getBitmap());
+            modelo3.setContentDescription(String.valueOf(listaModelos.get(2).getId()));
             modelo4.setImageBitmap(listaModelos.get(3).getBitmap());
+            modelo4.setContentDescription(String.valueOf(listaModelos.get(3).getId()));
         }else
             Toast.makeText(this,"Conexión fallida con el servidor.",Toast.LENGTH_SHORT).show();
     }
@@ -98,7 +125,7 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
             case R.id.modelo3:
             case R.id.modelo4:
 
-                int id = Integer.parseInt(findViewById(v.getId()).getContentDescription().toString());
+                String id = findViewById(v.getId()).getContentDescription().toString();
 
                 intentModelo.putExtra("idModelo",id );
                 startActivity(intentModelo);
@@ -147,5 +174,46 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public class TareaDescargaMarcasYModelos extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+            listaMarcas.clear();
+            listaModelos.clear();
+
+            listaMarcas.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_MARCAS, Marca[].class)));
+            listaModelos.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_MODELOS, Modelo[].class)));
+
+            System.out.println(listaMarcas.get(0).getLogo());
+            System.out.println();
+
+            for(Modelo m : listaModelos)
+                diccionarioModelos.put(m.getId(),m);
+
+            return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... progreso) {
+            super.onProgressUpdate(progreso);
+        }
+
+        @Override
+        protected void onPostExecute(Void resultado) {
+            super.onPostExecute(resultado);
+
+            ponerFotos();
+            //Toast.makeText(getApplicationContext(), "carga ok!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

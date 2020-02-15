@@ -8,6 +8,7 @@
     tools:context=".activities.ProductoActivity">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="0dp"
@@ -57,8 +58,7 @@
                 android:layout_width="400dp"
                 android:layout_height="400dp"
                 android:layout_margin="5dp"
-                android:contentDescription="@string/foto_producto"
-                app:srcCompat="@drawable/logo" />
+                android:contentDescription="@string/foto_producto" />
 
             <TextView
                 android:id="@+id/tvNombre"
@@ -68,7 +68,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/nombre_producto_pordefecto"
                 android:textColor="@color/textColor"
                 android:textSize="25sp" />
 
@@ -159,5 +158,16 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/pbProducto"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,16 +47,18 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         String pass = etPass.getText().toString();
         String repetirPass = etRepetirPass.getText().toString();
+        String user = etUser.getText().toString();
 
-        pbLogin.setVisibility(View.VISIBLE);
-
-        if(pass.equals(repetirPass)){
-            String user = etUser.getText().toString();
-
-            new TareaComprobarUsuario().execute(URL_COMPROBAR_USUARIO,user);
-        }else {
-            Toast.makeText(this, "La contraseña no coincide", Toast.LENGTH_SHORT).show();
-            pbLogin.setVisibility(View.INVISIBLE);
+        if(pass.equals("") || repetirPass.equals("") || user.equals(""))
+            Toast.makeText(this, "Campos vacios.", Toast.LENGTH_SHORT).show();
+        else {
+            pbLogin.setVisibility(View.VISIBLE);
+            if (pass.equals(repetirPass)) {
+                new TareaComprobarUsuario().execute(URL_COMPROBAR_USUARIO, user);
+            } else {
+                Toast.makeText(this, "La contraseña no coincide", Toast.LENGTH_SHORT).show();
+                pbLogin.setVisibility(View.INVISIBLE);
+            }
         }
     }
 

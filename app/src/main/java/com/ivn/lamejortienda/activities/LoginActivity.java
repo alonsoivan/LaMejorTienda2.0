@@ -1,6 +1,7 @@
 package com.ivn.lamejortienda.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,16 +13,27 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.ivn.lamejortienda.R;
 import com.ivn.lamejortienda.clases.Database;
+import com.ivn.lamejortienda.clases.Modelo;
+import com.ivn.lamejortienda.clases.NotificationWorker;
 import com.ivn.lamejortienda.clases.Usuario;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.concurrent.TimeUnit;
+
+import static androidx.work.PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS;
+import static com.ivn.lamejortienda.activities.CestaActivity.modelosCesta;
+import static com.ivn.lamejortienda.clases.Constantes.URL_AÑADIR_CESTA;
 import static com.ivn.lamejortienda.clases.Constantes.URL_COMPROBAR_USUARIO;
+import static com.ivn.lamejortienda.clases.Constantes.URL_ESTA_EN_CESTA;
 import static com.ivn.lamejortienda.clases.Constantes.URL_SERVIDOR;
+import static com.ivn.lamejortienda.clases.Objetos.modelo;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,6 +46,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        /*
+        Constraints constraints = new Constraints.Builder()
+                .setRequiresCharging(true)
+                .build();
+        */
+        // Pruebas servicio notis
+        PeriodicWorkRequest saveRequest =
+                new PeriodicWorkRequest.Builder(NotificationWorker.class, MIN_PERIODIC_INTERVAL_MILLIS , TimeUnit.SECONDS)
+                        //.setConstraints(constraints)
+                        .build();
+
+        WorkManager.getInstance(this).enqueue(saveRequest);
+
 
         etUser = findViewById(R.id.etUser);
         etPass = findViewById(R.id.etPass);
@@ -76,16 +103,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String contraseña = etPass.getText().toString();
 
                 // Recordar datos
+                if(!usuario.equals("") & !contraseña.equals("")) {
+                    Database db = new Database(this);
+                    if (cb.isChecked()) {
+                        db.drop();
+                        db.recordarUsiario(new Usuario(usuario, contraseña));
+                    } else
+                        db.drop();
 
-                Database db = new Database(this);
-                if(cb.isChecked()){
-                    db.drop();
-                    db.recordarUsiario(new Usuario(usuario,contraseña));
+                    pbLogin.setVisibility(View.VISIBLE);
+                    new TareaDescarga().execute(URL_COMPROBAR_USUARIO, usuario, contraseña);
                 }else
-                    db.drop();
-
-                pbLogin.setVisibility(View.VISIBLE);
-                new TareaDescarga().execute(URL_COMPROBAR_USUARIO,usuario,contraseña);
+                    Toast.makeText(this,"Campos vacios.",Toast.LENGTH_SHORT).show();
 
                 break;
 
@@ -135,6 +164,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             super.onPostExecute(resultado);
 
             if(res == 1) {
+
+                if(getIntent().getStringExtra("usr") == null)
+                    for(Modelo m: modelosCesta)
+                        new TareaComprobarCesta().execute(URL_SERVIDOR,etUser.getText().toString(),String.valueOf(m.getId()),"false");
+
+
+
                 Intent intentDestacados = new Intent(getApplicationContext(), DestacadosActivity.class);
                 intentDestacados.putExtra("usr", etUser.getText().toString());
                 startActivity(intentDestacados);
@@ -146,6 +182,85 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
             pbLogin.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    class TareaComprobarCesta extends AsyncTask<String, Void, Void> {
+        int res;
+        boolean cesta;
+
+        @Override
+        protected Void doInBackground(String... params) {
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+            cesta = Boolean.parseBoolean(params[3]);
+            res = restTemplate.getForObject(URL_SERVIDOR + URL_ESTA_EN_CESTA + params[1] + "&modelo=" + params[2], Integer.class);
+
+            return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... progreso) { super.onProgressUpdate(progreso); }
+
+        @Override
+        protected void onPostExecute(Void resultado) {
+            super.onPostExecute(resultado);
+            if (res == 1){
+                Toast.makeText(getApplicationContext(),R.string.producto_ya_en_cesta,Toast.LENGTH_SHORT).show();
+
+                if(cesta){
+                    Intent carrito = new Intent(getApplicationContext(), CestaActivity.class);
+                    carrito.putExtra("usr", etUser.getText().toString());
+                    startActivity(carrito);
+                }
+            }
+            else {
+                new TareaAñadirCesta().execute(URL_SERVIDOR, etUser.getText().toString(), String.valueOf(modelo.getId()),String.valueOf(cesta));
+            }
+        }
+    }
+
+
+    class TareaAñadirCesta extends AsyncTask<String, Void, Void> {
+        boolean cesta;
+
+        @Override
+        protected Void doInBackground(String... params) {
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+            cesta = Boolean.parseBoolean(params[3]);
+            restTemplate.getForObject(URL_SERVIDOR + URL_AÑADIR_CESTA + params[1] + "&modelo=" + params[2], Modelo[].class);
+
+            return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... progreso) {
+            super.onProgressUpdate(progreso);
+        }
+
+        @Override
+        protected void onPostExecute(Void resultado) {
+            super.onPostExecute(resultado);
+            Toast.makeText(getApplicationContext(), R.string.producto_añadido_cesta , Toast.LENGTH_SHORT).show();
+
+            if(cesta) {
+                Intent carrito = new Intent(getApplicationContext(), CestaActivity.class);
+                carrito.putExtra("usr", etUser.getText().toString());
+                startActivity(carrito);
+            }
         }
     }
 }

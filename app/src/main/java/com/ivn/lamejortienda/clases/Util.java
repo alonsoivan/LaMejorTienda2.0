@@ -18,8 +18,9 @@ public class Util {
         return f.format(d)+" €";
     }
 
-    public static void login(Context context){
-        Intent carrito = new Intent(context, LoginActivity.class);
-        context.startActivity(carrito);
+    public static void login(Context context, String usr){
+        Intent loginIntent = new Intent(context, LoginActivity.class);
+        loginIntent.putExtra("usr",usr);
+        context.startActivity(loginIntent);
     }
 }

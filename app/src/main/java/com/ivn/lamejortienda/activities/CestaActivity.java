@@ -37,7 +37,7 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
 
     private String usr;
 
-    public static ArrayList<Modelo> modelosCesta;
+    public static ArrayList<Modelo> modelosCesta = new ArrayList<>();
     public static ModeloAdapterCesta adaptador;
     public static float total = 0;
     public static TextView tvTotal;
@@ -51,8 +51,12 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
         usr = getIntent().getStringExtra("usr");
 
         pbCesta = findViewById(R.id.pbCesta);
-        pbCesta.setVisibility(View.VISIBLE);
-        new TareaGetCestaUsuario().execute(URL_CESTA_USUARIO,usr);
+
+
+        if(usr != null) {
+            pbCesta.setVisibility(View.VISIBLE);
+            new TareaGetCestaUsuario().execute(URL_CESTA_USUARIO, usr);
+        }
 
         // Usuario
         TextView tvUsr = findViewById(R.id.tvUsr);
@@ -69,7 +73,6 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
 
 
         // LISTVIEW
-        modelosCesta = new ArrayList<>();
         ListView lvModelos = findViewById(R.id.lvListaCesta);
         registerForContextMenu(lvModelos);
         adaptador = new ModeloAdapterCesta(this,modelosCesta);
@@ -147,7 +150,7 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(this, R.string.cesta_vacia ,Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvUsr:
-                Util.login(this);
+                Util.login(this,usr);
                 break;
             default:
                 break;
@@ -200,13 +203,13 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public class TareaGetCestaUsuario extends AsyncTask<String, Void, Void> {
-
+        ArrayList<Modelo> aux = new ArrayList<>();
         @Override
         protected Void doInBackground(String... params) {
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-            modelosCesta.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_CESTA_USUARIO + params[1] , Modelo[].class)));
+            aux.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_CESTA_USUARIO + params[1] , Modelo[].class)));
 
             return null;
         }
@@ -224,7 +227,13 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
         @Override
         protected void onPostExecute(Void resultado) {
             super.onPostExecute(resultado);
+
+            // si limpio peta, pero sino se duplican
+            modelosCesta.clear();
+            modelosCesta.addAll(aux);
+
             adaptador.notifyDataSetChanged();
+            total = 0;
             for (Modelo modelo: modelosCesta)
                 total += (modelo.getPrecio()*modelo.getCantidad());
 

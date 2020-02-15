@@ -1,6 +1,18 @@
 package com.ivn.lamejortienda.clases;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 public class Constantes {
+
     public static final String BASE_DATOS = "laMejorTiendaDB.db";
 
     // TABLAS
@@ -24,5 +36,6 @@ public class Constantes {
     public static final String URL_CESTA_USUARIO = "/cesta_usuario?usuario=";
     public static final String URL_REALIZAR_PEDIDO = "/realizar_pedido?usuario=";
     public static final String URL_ELIMINAR_MODELO_CESTA = "/eliminar_modelo_cesta?usuario=";
+
 
 }

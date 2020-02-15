@@ -76,7 +76,7 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intentModelo = new Intent(getApplicationContext(), ProductoActivity.class);
                 intentModelo.putExtra("usr",usr);
-                intentModelo.putExtra("idModelo",modelos.get(position).getId());
+                intentModelo.putExtra("idModelo",String.valueOf(modelos.get(position).getId()));
                 startActivity(intentModelo);
             }
         });
@@ -125,6 +125,25 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
 
                 if (marca.equals("TODAS")) {
                     modelos.addAll(Objetos.listaModelos);
+
+                    String orden = spinnerOrden.getSelectedItem().toString();
+
+                    switch (orden) {
+                        case "PRECIO ASCENDENTE":
+                            modelos.sort(Comparator.comparing(Modelo::getPrecio));
+                            break;
+                        case "PRECIO DESCENDENTE":
+                            modelos.sort(Comparator.comparing(Modelo::getPrecio).reversed());
+                            break;
+                        case "POPULARIDAD":
+                            modelos.sort(Comparator.comparing(Modelo::getPopularidad).reversed());
+                            break;
+                        case "VENTAS":
+                            modelos.sort(Comparator.comparing(Modelo::getVentas).reversed());
+                            break;
+                    }
+
+
                     adaptador.notifyDataSetChanged();
                 } else {
                     adaptador.notifyDataSetChanged();
@@ -217,7 +236,7 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
 
         switch (v.getId()){
             case R.id.tvUsr:
-                Util.login(this);
+                Util.login(this,usr);
                 break;
             case R.id.btCarrito:
                 Intent carrito = new Intent(this,CestaActivity.class);

@@ -29,4 +29,14 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Contacto">
+
+        <Preference
+            android:dialogTitle="Contactanos"
+            android:key="opcion_contacto"
+            android:title="¿Tienes alguna duda? ¡Comentanosla!"
+            android:summary=""/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

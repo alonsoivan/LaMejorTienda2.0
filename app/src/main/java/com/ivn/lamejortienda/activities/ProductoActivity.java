@@ -8,72 +8,53 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ivn.lamejortienda.R;
-import com.ivn.lamejortienda.clases.Database;
 import com.ivn.lamejortienda.clases.Modelo;
 import com.ivn.lamejortienda.clases.Util;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import static com.ivn.lamejortienda.activities.CestaActivity.modelosCesta;
 import static com.ivn.lamejortienda.clases.Constantes.URL_AÑADIR_CESTA;
 import static com.ivn.lamejortienda.clases.Constantes.URL_ESTA_EN_CESTA;
+import static com.ivn.lamejortienda.clases.Constantes.URL_MODELO;
 import static com.ivn.lamejortienda.clases.Constantes.URL_SERVIDOR;
-import static com.ivn.lamejortienda.clases.Objetos.diccionarioModelos;
-import static com.ivn.lamejortienda.clases.Objetos.listaModelos;
 import static com.ivn.lamejortienda.clases.Objetos.modelo;
 
 
 public class ProductoActivity extends AppCompatActivity implements View.OnClickListener {
+
     private String usr;
+    private ProgressBar pbProducto;
+    private Button btComprar;
+    private Button btAddCesta;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producto);
 
-        // quitar?
-        Database db = new Database(this);
-        //Producto producto = db.getProducto(getIntent().getLongExtra("idModelo",1));
-        //getIntent().getIntExtra("idModelo",1)
+        String id = getIntent().getStringExtra("idModelo");
+        new TareaDescargaModelo().execute(id);
 
-        modelo = diccionarioModelos.get(getIntent().getIntExtra("idModelo",1));
+        pbProducto = findViewById(R.id.pbProducto);
+        pbProducto.setVisibility(View.VISIBLE);
 
-        TextView tvNombre = findViewById(R.id.tvNombre);
-        tvNombre.setText(modelo.getNombre());
-
-        TextView tvPrecio = findViewById(R.id.tvPrecio);
-        tvPrecio.setText(Util.format(modelo.getPrecio()));
-
-
-        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean info = preferencias.getBoolean("opcion_ver_informacion",false);
-        if(info) {
-            TextView tvDes = findViewById(R.id.tvDes);
-            tvDes.setText(modelo.getDescripcion());
-        }else {
-            TextView tvTituloDes = findViewById(R.id.tvTituloDes);
-            tvTituloDes.setText("");
-        }
-
-        ImageView ivProducto = findViewById(R.id.ivProducto);
-        ivProducto.setImageBitmap(modelo.getBitmap());
-
-
-        Button btComprar = findViewById(R.id.btComprar);
-        Button btAddCesta = findViewById(R.id.btAddCesta);
-
+        btComprar = findViewById(R.id.btComprar);
+        btAddCesta = findViewById(R.id.btAddCesta);
 
         btComprar.setOnClickListener(this);
         btAddCesta.setOnClickListener(this);
 
 
         usr = getIntent().getStringExtra("usr");
-
         // Usuario
         TextView tvUsr = findViewById(R.id.tvUsr);
         tvUsr.setOnClickListener(this);
@@ -86,24 +67,38 @@ public class ProductoActivity extends AppCompatActivity implements View.OnClickL
     @Override // Arreglar
     public void onClick(View v) {
 
-        int index = listaModelos.indexOf(modelo);
         switch (v.getId()){
             case R.id.btComprar:
 
-                new TareaComprobarCesta().execute(URL_SERVIDOR,usr,String.valueOf(modelo.getId()),"true");
+                if(usr != null)
+                    new TareaComprobarCesta().execute(URL_SERVIDOR,usr,String.valueOf(modelo.getId()),"true");
+                else {
+                    if (modelosCesta.indexOf(modelo) >= 0)
+                        Toast.makeText(getApplicationContext(), R.string.producto_ya_en_cesta, Toast.LENGTH_SHORT).show();
+                    else
+                        modelosCesta.add(modelo);
 
-                listaModelos.set(index,modelo);
+                    Intent carrito = new Intent(getApplicationContext(), CestaActivity.class);
+                    carrito.putExtra("usr", usr);
+                    startActivity(carrito);
+                }
 
                 break;
             case R.id.btAddCesta:
 
-                new TareaComprobarCesta().execute(URL_SERVIDOR,usr,String.valueOf(modelo.getId()),"false");
-
-                listaModelos.set(index,modelo);
-
+                if(usr != null)
+                    new TareaComprobarCesta().execute(URL_SERVIDOR,usr,String.valueOf(modelo.getId()),"false");
+                else {
+                    if (modelosCesta.indexOf(modelo) >= 0)
+                        Toast.makeText(getApplicationContext(), R.string.producto_ya_en_cesta, Toast.LENGTH_SHORT).show();
+                    else {
+                        modelosCesta.add(modelo);
+                        Toast.makeText(getApplicationContext(), R.string.producto_añadido_cesta, Toast.LENGTH_SHORT).show();
+                    }
+                }
                 break;
             case R.id.tvUsr:
-                Util.login(this);
+                Util.login(this,usr);
                 break;
         }
     }
@@ -184,6 +179,65 @@ public class ProductoActivity extends AppCompatActivity implements View.OnClickL
                 carrito.putExtra("usr", usr);
                 startActivity(carrito);
             }
+        }
+    }
+
+    class TareaDescargaModelo extends AsyncTask<String, Void, Void> {
+
+        /*
+         * En este método se debe escribir el código de la tarea que se desea
+         * realizar en segundo plano.
+         * Hay que tener en cuenta que Android no nos permitirá acceder a
+         * ningún componente de la GUI desde este método
+         */
+        @Override
+        protected Void doInBackground(String... params) {
+            RestTemplate restTemplate = new RestTemplate();
+
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+
+            modelo = restTemplate.getForObject(URL_SERVIDOR + URL_MODELO + params[0], Modelo.class);
+            System.out.println(modelo.getNombre());
+
+            return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... progreso) {
+            super.onProgressUpdate(progreso);
+        }
+
+        @Override
+        protected void onPostExecute(Void resultado) {
+            super.onPostExecute(resultado);
+
+            TextView tvNombre = findViewById(R.id.tvNombre);
+            tvNombre.setText(modelo.getNombre());
+
+            TextView tvPrecio = findViewById(R.id.tvPrecio);
+            tvPrecio.setText(Util.format(modelo.getPrecio()));
+
+
+            SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            boolean info = preferencias.getBoolean("opcion_ver_informacion",false);
+            if(info) {
+                TextView tvDes = findViewById(R.id.tvDes);
+                tvDes.setText(modelo.getDescripcion());
+            }else {
+                TextView tvTituloDes = findViewById(R.id.tvTituloDes);
+                tvTituloDes.setText("");
+            }
+
+            ImageView ivProducto = findViewById(R.id.ivProducto);
+            ivProducto.setImageBitmap(modelo.getBitmap());
+
+            pbProducto.setVisibility(View.INVISIBLE);
         }
     }
 

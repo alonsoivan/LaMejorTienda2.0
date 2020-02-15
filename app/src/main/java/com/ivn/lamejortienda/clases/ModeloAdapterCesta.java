@@ -72,7 +72,7 @@ public class ModeloAdapterCesta extends BaseAdapter {
         final Modelo modelo = listaModelos.get(position);
         final ModeloAdapterCesta.ViewHolder finalHolder = holder;
 
-        holder.foto.setImageBitmap(modelo.getBitmap()); // EL bueno cuando tenga imgs
+        holder.foto.setImageBitmap(modelo.getBitmap());
         holder.nombre.setText(modelo.getNombre());
         holder.cantidad.setText(String.valueOf(modelo.getCantidad()));
         holder.precio.setText(Util.format(modelo.getPrecio()));

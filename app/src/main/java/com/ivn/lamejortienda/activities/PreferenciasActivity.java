@@ -2,7 +2,9 @@ package com.ivn.lamejortienda.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -34,6 +36,24 @@ public class PreferenciasActivity extends PreferenceActivity {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 else
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+                return true;
+            }
+        });
+
+        Preference contactoPref = findPreference("opcion_contacto");
+
+        contactoPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+
+                // pruebas tlf
+
+                String posted_by = "123456789";
+
+                String uri = "tel:" + posted_by.trim() ;
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse(uri));
+                startActivity(intent);
 
                 return true;
             }

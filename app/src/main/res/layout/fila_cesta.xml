@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/ivFoto"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_margin="5dp"
         android:layout_weight="1"
         tools:srcCompat="@tools:sample/avatars" />
@@ -26,36 +26,40 @@
 
         <TextView
             android:id="@+id/tvNombre"
-            android:layout_width="210dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:text=""
             android:textColor="@color/textColor"
-            android:textSize="30sp" />
+            android:textSize="27sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:textAlignment="center">
 
             <Button
                 android:id="@+id/btMenos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/edittext_rounded_corners_border"
+                android:backgroundTint="@color/colorPrimary"
                 android:longClickable="false"
                 android:text="@string/btMenos"
                 android:textColor="@color/textColor"
-                android:backgroundTint="@color/colorPrimary"
-                android:textSize="24sp" />
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/tvCantidad"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="0dp"
+                android:layout_marginStart="5dp"
                 android:text=""
                 android:textAlignment="center"
                 android:textColor="@color/textColor"
@@ -63,13 +67,17 @@
 
             <Button
                 android:id="@+id/btMas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/edittext_rounded_corners_border"
                 android:backgroundTint="@color/colorPrimary"
-                android:text="@string/btMas"
                 android:textColor="@color/textColor"
-                android:textSize="24sp" />
+                android:foregroundGravity="center"
+                android:textAlignment="center"
+                android:gravity="right"
+                android:text="@string/btMas"
+                android:textSize="30sp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -78,7 +86,7 @@
         android:id="@+id/tvPrecio"
         android:layout_width="90dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="4dp"
         android:text=""
         android:textAlignment="textEnd"
         android:textColor="@color/textColor"

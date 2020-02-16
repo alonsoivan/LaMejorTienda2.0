@@ -74,7 +74,7 @@
     <string name="title_activity_mapa">Map</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="title_activity_preferencias">Preferencias</string>
 
     <!-- Preference Titles -->
@@ -91,4 +91,8 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <string name="title_activity_pestanas">PestanasActivity</string>
+    <string name="tab_text_1">A DOMICILIO</string>
+    <string name="tab_text_2">RECOGER EN TIENDA</string>
 </resources>

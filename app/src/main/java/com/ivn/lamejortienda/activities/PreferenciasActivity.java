@@ -1,7 +1,5 @@
 package com.ivn.lamejortienda.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -46,14 +44,19 @@ public class PreferenciasActivity extends PreferenceActivity {
         contactoPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
 
-                // pruebas tlf
 
-                String posted_by = "123456789";
-
-                String uri = "tel:" + posted_by.trim() ;
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse(uri));
+                intent.setData(Uri.parse("tel:" + "123456789"));
                 startActivity(intent);
+
+                /*
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto","abc@gmail.com", null));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"",""}); // String[] addresses
+                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+                */
 
                 return true;
             }

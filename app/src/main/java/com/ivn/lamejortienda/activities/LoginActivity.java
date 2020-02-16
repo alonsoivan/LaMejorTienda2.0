@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         */
         // Pruebas servicio notis
         PeriodicWorkRequest saveRequest =
-                new PeriodicWorkRequest.Builder(NotificationWorker.class, MIN_PERIODIC_INTERVAL_MILLIS , TimeUnit.SECONDS)
+                new PeriodicWorkRequest.Builder(NotificationWorker.class, MIN_PERIODIC_INTERVAL_MILLIS , TimeUnit.MILLISECONDS)
                         //.setConstraints(constraints)
                         .build();
 

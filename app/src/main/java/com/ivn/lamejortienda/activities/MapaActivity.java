@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -51,10 +49,10 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean modo = false;  // Para ver en que modo esta: claro-oscuro
     private MapView mapView;
     private GoogleMap googleMap;
-    LatLng tienda = new LatLng(40.394257, -3.745465);
+    private LatLng tienda = new LatLng(40.394257, -3.745465);
     private String mode;      // Incida el modo de ruta: andando, en coche..
 
-    private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+    public static final String MAPVIEW_BUNDLE_KEY = "AIzaSyCjhFV0xn40V0ojoNE2Qc1cfEzjRHcCJdc";
 
     FloatingActionButton btModo;
     FloatingActionButton btAndar;

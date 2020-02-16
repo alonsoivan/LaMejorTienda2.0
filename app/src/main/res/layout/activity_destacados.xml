@@ -47,17 +47,14 @@
                     android:layout_width="201dp"
                     android:layout_height="201dp"
                     android:contentDescription="@string/_1"
-                    android:onClick="onClick"
-                    app:srcCompat="@android:color/background_dark" />
+                    android:onClick="onClick" />
 
                 <ImageView
                     android:id="@+id/marca2"
                     android:layout_width="201dp"
                     android:layout_height="201dp"
                     android:contentDescription="@string/_2"
-                    android:onClick="onClick"
-                    app:srcCompat="@color/common_google_signin_btn_text_dark_focused" />
-
+                    android:onClick="onClick" />
             </TableRow>
 
             <TableRow
@@ -69,16 +66,14 @@
                     android:layout_width="201dp"
                     android:layout_height="201dp"
                     android:contentDescription="@string/_3"
-                    android:onClick="onClick"
-                    app:srcCompat="@android:color/background_dark" />
+                    android:onClick="onClick" />
 
                 <ImageView
                     android:id="@+id/marca4"
                     android:layout_width="201dp"
                     android:layout_height="201dp"
                     android:contentDescription="@string/_4"
-                    android:onClick="onClick"
-                    app:srcCompat="@color/common_google_signin_btn_text_dark_focused" />
+                    android:onClick="onClick" />
             </TableRow>
 
         </TableLayout>
@@ -106,33 +101,25 @@
                     android:id="@+id/modelo1"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:contentDescription="1"
-                    android:onClick="onClick"
-                    app:srcCompat="@color/common_google_signin_btn_text_dark_focused" />
+                    android:onClick="onClick" />
 
                 <ImageView
                     android:id="@+id/modelo2"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:contentDescription="3"
-                    android:onClick="onClick"
-                    app:srcCompat="@android:color/black" />
+                    android:onClick="onClick" />
 
                 <ImageView
                     android:id="@+id/modelo3"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:contentDescription="4"
-                    android:onClick="onClick"
-                    app:srcCompat="@android:color/black" />
+                    android:onClick="onClick" />
 
                 <ImageView
                     android:id="@+id/modelo4"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:contentDescription="5"
-                    android:onClick="onClick"
-                    app:srcCompat="@android:color/black" />
+                    android:onClick="onClick" />
 
             </TableRow>
 

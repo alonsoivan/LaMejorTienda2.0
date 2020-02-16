@@ -110,39 +110,12 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
                 if(modelosCesta.size()>0){
 
                     if(usr != null) {
-                        // Dialogo
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle(R.string.finalizar_y_pagar);
-                        builder.setMessage(R.string.pregunta_finalizar_compra);
-                        builder.setPositiveButton("Recogida en tienda", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                startActivity(new Intent(getApplicationContext(), MapaActivity.class));
-
-                                modelosCesta.clear();
-                                adaptador.notifyDataSetChanged();
-
-                                ((TextView) findViewById(R.id.tvTotal)).setText(Util.format(0));
-                            }
-                        });
-                        builder.setNegativeButton("Envio a domicilio", new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                Toast.makeText(getApplicationContext(), R.string.compra_exitosa, Toast.LENGTH_SHORT).show();
-
-                                modelosCesta.clear();
-                                adaptador.notifyDataSetChanged();
-
-                                ((TextView) findViewById(R.id.tvTotal)).setText(Util.format(0));
-                            }
-
-                        });
-                        builder.create().show();
+                        Intent in = new Intent(this, PestanasActivity.class);
+                        in.putExtra("usr",usr);
+                        startActivity(in);
 
                         // Realizamos el pedido
-                        new TareaRealizarPedido().execute(URL_REALIZAR_PEDIDO,usr);
-
+                        new CestaActivity.TareaRealizarPedido().execute(URL_REALIZAR_PEDIDO,usr);
                     }else
                         Toast.makeText(this, R.string.debe_iniciar_sesion ,Toast.LENGTH_SHORT).show();
 

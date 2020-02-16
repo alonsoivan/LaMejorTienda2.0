@@ -146,15 +146,12 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
 
         switch (item.getItemId()) {
             case R.id.action_bar_preferencias:
+
                 Intent in = new Intent(this, PreferenciasActivity.class);
                 startActivity(in);
+
                 break;
             case R.id.action_bar_acerca_de:
-                /*
-                Intent acercaDe = new Intent(this,PruebasActivity.class);
-                acercaDe.putExtra("usr",usr);
-                startActivity(acercaDe);
-                */
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AlertDialogStyle);
                 builder.setTitle(R.string.acerca_de );
@@ -213,7 +210,6 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
             super.onPostExecute(resultado);
 
             ponerFotos();
-            //Toast.makeText(getApplicationContext(), "carga ok!", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -39,9 +39,9 @@ public class PreferenciasActivity extends PreferenceActivity {
             }
         });
 
-        Preference contactoPref = findPreference("opcion_contacto");
+        Preference contactoTlfPref = findPreference("opcion_contacto_tlf");
 
-        contactoPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        contactoTlfPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
 
 
@@ -49,14 +49,20 @@ public class PreferenciasActivity extends PreferenceActivity {
                 intent.setData(Uri.parse("tel:" + "123456789"));
                 startActivity(intent);
 
-                /*
+
+
+                return true;
+            }
+        });
+
+        Preference contactoEmailPref = findPreference("opcion_contacto_email");
+
+        contactoEmailPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                        "mailto","abc@gmail.com", null));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-                emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"",""}); // String[] addresses
+                        "mailto","lamejortienda2.0@gmail.com", null));
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));
-                */
 
                 return true;
             }

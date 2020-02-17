@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,7 +24,6 @@ import java.util.Arrays;
 import static com.ivn.lamejortienda.clases.Constantes.URL_MARCAS;
 import static com.ivn.lamejortienda.clases.Constantes.URL_MODELOS;
 import static com.ivn.lamejortienda.clases.Constantes.URL_SERVIDOR;
-import static com.ivn.lamejortienda.clases.Objetos.diccionarioModelos;
 import static com.ivn.lamejortienda.clases.Objetos.listaMarcas;
 import static com.ivn.lamejortienda.clases.Objetos.listaModelos;
 
@@ -82,9 +80,6 @@ public class SplashMainActivity extends AppCompatActivity {
 
             System.out.println(listaMarcas.get(0).getLogo());
             System.out.println();
-
-            for(Modelo m : listaModelos)
-                diccionarioModelos.put(m.getId(),m);
 
             return null;
         }

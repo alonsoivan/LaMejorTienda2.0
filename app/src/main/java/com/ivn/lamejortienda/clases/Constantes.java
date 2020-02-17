@@ -37,5 +37,4 @@ public class Constantes {
     public static final String URL_REALIZAR_PEDIDO = "/realizar_pedido?usuario=";
     public static final String URL_ELIMINAR_MODELO_CESTA = "/eliminar_modelo_cesta?usuario=";
 
-
 }

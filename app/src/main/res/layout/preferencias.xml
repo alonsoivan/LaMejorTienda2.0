@@ -6,6 +6,7 @@
 
         <CheckBoxPreference
             android:key="opcion_ver_informacion"
+            android:icon="@drawable/info"
             android:summary="Ver información detallada de un modelo."
             android:title="Información detallada" />
 
@@ -14,6 +15,7 @@
             android:entries="@array/datos"
             android:entryValues="@array/datos"
             android:key="opcion_ubicacion"
+            android:icon="@drawable/ubi"
             android:summary="Cuando la aplicación lo necesite, se accedera a la ubicación a traves de:"
             android:title="Obtener ubicación" />
 
@@ -23,19 +25,26 @@
 
         <SwitchPreference
             android:dialogTitle="Modo noche"
+            android:icon="@drawable/brillo"
             android:key="opcion_modo"
             android:title="Modo oscuro"
-            android:summary=""/>
+            android:summary="Elige entre modo dia/modo noche."/>
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Contacto">
 
         <Preference
-            android:dialogTitle="Contactanos"
-            android:key="opcion_contacto"
-            android:title="¿Tienes alguna duda? ¡Comentanosla!"
-            android:summary=""/>
+            android:key="opcion_contacto_tlf"
+            android:icon="@drawable/contacto"
+            android:title="Télefono"
+            android:summary="Asistencia telefónica 24."/>
+
+        <Preference
+            android:key="opcion_contacto_email"
+            android:icon="@drawable/correo"
+            android:title="Email"
+            android:summary="Mándanos tus dudas."/>
 
     </PreferenceCategory>
 

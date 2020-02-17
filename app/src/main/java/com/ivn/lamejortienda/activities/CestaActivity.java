@@ -91,13 +91,21 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onResume() {
         super.onResume();
+        if(usr != null) {
+            pbCesta.setVisibility(View.VISIBLE);
+            new TareaGetCestaUsuario().execute(URL_CESTA_USUARIO, usr);
+        }else {
 
-        tvTotal = findViewById(R.id.tvTotal);
-        total = 0;
-        for (Modelo modelo: modelosCesta)
-            total += (modelo.getPrecio()*modelo.getCantidad());
+            adaptador.notifyDataSetChanged();
 
-        tvTotal.setText(Util.format(total));
+            // Obtener el precio total de la cesta
+            tvTotal = findViewById(R.id.tvTotal);
+            total = 0;
+            for (Modelo modelo : modelosCesta)
+                total += (modelo.getPrecio() * modelo.getCantidad());
+
+            tvTotal.setText(Util.format(total));
+        }
     }
 
     @Override

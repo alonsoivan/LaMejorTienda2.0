@@ -2,12 +2,12 @@ package com.ivn.lamejortienda.activities.ui.main;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,9 +15,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.ivn.lamejortienda.R;
-import com.ivn.lamejortienda.activities.CestaActivity;
-
-import static com.ivn.lamejortienda.clases.Constantes.URL_REALIZAR_PEDIDO;
 
 
 /**
@@ -26,6 +23,10 @@ import static com.ivn.lamejortienda.clases.Constantes.URL_REALIZAR_PEDIDO;
 public class PlaceholderFragment extends Fragment implements View.OnClickListener {
 
     Button btRealizarPedido;
+    EditText etDir1;
+    EditText etDir2;
+    EditText etCP;
+    EditText etCiudad;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private PageViewModel pageViewModel;
@@ -58,13 +59,29 @@ public class PlaceholderFragment extends Fragment implements View.OnClickListene
         btRealizarPedido = root.findViewById(R.id.btPedido);
         btRealizarPedido.setOnClickListener(this);
 
+
+        etDir1 = root.findViewById(R.id.etDir1);
+        etDir2 = root.findViewById(R.id.etDir2);
+        etCP = root.findViewById(R.id.etCP);
+        etCiudad = root.findViewById(R.id.etCiudad);
+
         return root;
     }
 
     @Override
     public void onClick(View v) {
-        Snackbar.make(v, "PEDIDO  REALIZADO.    GRACIAS  POR  SU  COMPRA.", Snackbar.LENGTH_SHORT)
-                .setActionTextColor(Color.RED)
-                .show();
+        String dir1 = etDir1.getText().toString();
+        String dir2 = etDir2.getText().toString();
+        String ciudad = etCiudad.getText().toString();
+        String cp = etCP.getText().toString();
+
+        if(dir1.isEmpty() || dir2.isEmpty() || ciudad.isEmpty() || cp.isEmpty())
+            Snackbar.make(v, "TODOS LOS CAMPOS SON OBLIGATORIOS.", Snackbar.LENGTH_SHORT)
+                    .setActionTextColor(Color.RED)
+                    .show();
+        else
+            Snackbar.make(v, "PEDIDO  REALIZADO.    GRACIAS  POR  SU  COMPRA.", Snackbar.LENGTH_SHORT)
+                    .setActionTextColor(Color.RED)
+                    .show();
     }
 }

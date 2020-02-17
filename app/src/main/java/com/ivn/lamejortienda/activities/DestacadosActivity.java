@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ivn.lamejortienda.R;
@@ -28,7 +27,6 @@ import java.util.Comparator;
 import static com.ivn.lamejortienda.clases.Constantes.URL_MARCAS;
 import static com.ivn.lamejortienda.clases.Constantes.URL_MODELOS;
 import static com.ivn.lamejortienda.clases.Constantes.URL_SERVIDOR;
-import static com.ivn.lamejortienda.clases.Objetos.diccionarioModelos;
 import static com.ivn.lamejortienda.clases.Objetos.listaMarcas;
 import static com.ivn.lamejortienda.clases.Objetos.listaModelos;
 
@@ -70,10 +68,9 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
             ponerFotos();
     }
 
-
     public void ponerFotos(){
         // poner la desc de los objetos sobre los imageview , no en el diseño //
-        if(listaMarcas.size()>0) {
+        if(listaMarcas.size()>4) {
             marca1.setImageBitmap(listaMarcas.get(0).getBitmap());
             marca2.setImageBitmap(listaMarcas.get(1).getBitmap());
             marca3.setImageBitmap(listaMarcas.get(2).getBitmap());
@@ -82,7 +79,7 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
             Toast.makeText(this,"Conexión fallida con el servidor.",Toast.LENGTH_SHORT).show();
 
 
-        if(listaModelos.size()>0){
+        if(listaModelos.size()>3){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 listaModelos.sort(Comparator.comparing(Modelo::getPopularidad).reversed());
             }
@@ -186,11 +183,8 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
             listaMarcas.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_MARCAS, Marca[].class)));
             listaModelos.addAll(Arrays.asList(restTemplate.getForObject(URL_SERVIDOR + URL_MODELOS, Modelo[].class)));
 
-            System.out.println(listaMarcas.get(0).getLogo());
-            System.out.println();
-
-            for(Modelo m : listaModelos)
-                diccionarioModelos.put(m.getId(),m);
+            System.out.println(listaMarcas.get(0).getNombre());
+            System.out.println(listaModelos.get(0).getNombre());
 
             return null;
         }

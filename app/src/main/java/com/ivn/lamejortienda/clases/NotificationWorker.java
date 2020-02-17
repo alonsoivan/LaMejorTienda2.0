@@ -44,7 +44,7 @@ public class NotificationWorker extends Worker {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                 .setSmallIcon(R.drawable.logo2)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),
-                        R.drawable.logo))
+                        R.drawable.noti))
                 .setContentTitle("¡OJO!")
                 .setContentText("Mira que smartphones mas chulos!")
                 .setAutoCancel(true)

@@ -11,16 +11,21 @@ import android.os.Handler;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.ivn.lamejortienda.R;
 import com.ivn.lamejortienda.clases.Marca;
 import com.ivn.lamejortienda.clases.Modelo;
+import com.ivn.lamejortienda.clases.NotificationWorker;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
+import static androidx.work.PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS;
 import static com.ivn.lamejortienda.clases.Constantes.URL_MARCAS;
 import static com.ivn.lamejortienda.clases.Constantes.URL_MODELOS;
 import static com.ivn.lamejortienda.clases.Constantes.URL_SERVIDOR;
@@ -39,13 +44,19 @@ public class SplashMainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash_main);
 
+        // Crea y lanza el servicio de las notis
+        PeriodicWorkRequest saveRequest =
+                new PeriodicWorkRequest.Builder(NotificationWorker.class, MIN_PERIODIC_INTERVAL_MILLIS , TimeUnit.MILLISECONDS)
+                        .build();
+
+        WorkManager.getInstance(this).enqueue(saveRequest);
+
+
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         if (mWifi.isConnected()) {
-
-            TareaDescarga t = new TareaDescarga();
-            t.execute();
+            new TareaDescarga().execute();
 
         }else {
             new Handler().postDelayed(new Runnable() {
@@ -56,14 +67,10 @@ public class SplashMainActivity extends AppCompatActivity {
                 }
             }, DURACION_SPLASH);
         }
-
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
+    protected void onResume() { super.onResume(); }
 
     public class TareaDescarga extends AsyncTask<String, Void, Void> {
 
@@ -103,5 +110,4 @@ public class SplashMainActivity extends AppCompatActivity {
             finish();
         }
     }
-
 }

@@ -121,7 +121,7 @@
                     android:backgroundTint="@color/colorPrimary"
                     android:drawableStart="@drawable/add_carrito"
                     android:paddingStart="28dp"
-                    android:textSize="30dp" />
+                    android:textSize="30sp" />
 
                 <Button
                     android:id="@+id/btComprar"
@@ -134,7 +134,7 @@
                     android:fontFamily="sans-serif-black"
                     android:text="@string/comprar"
                     android:textColor="@color/textColor"
-                    android:textSize="30dp" />
+                    android:textSize="30sp" />
 
             </LinearLayout>
 

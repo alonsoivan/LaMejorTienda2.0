@@ -95,4 +95,23 @@
     <string name="title_activity_pestanas">PestanasActivity</string>
     <string name="tab_text_1">A DOMICILIO</string>
     <string name="tab_text_2">RECOGER EN TIENDA</string>
+    <string name="repetir_contrase_a">Repetir contraseña</string>
+    <string name="linea_direcci_n_1">LINEA DIRECCIÓN 1</string>
+    <string name="linea_direcci_n_2">LINEA DIRECCIÓN 2</string>
+    <string name="c_digo_postal">CÓDIGO POSTAL</string>
+    <string name="ciudad">CIUDAD</string>
+    <string name="realizar_pedido">REALIZAR PEDIDO</string>
+    <string name="ir_a_la_tienda">Ir a la tienda</string>
+    <string name="contacto">Contacto</string>
+    <string name="apariencia">Apariencia</string>
+    <string name="general">General</string>
+    <string name="informaci_n_detallada">Información detallada</string>
+    <string name="obtener_ubicaci_n">Obtener ubicación</string>
+    <string name="modo_oscuro">Modo oscuro</string>
+    <string name="t_lefono">Teléfono</string>
+    <string name="email">Email</string>
+    <string name="todos_campos">TODOS LOS CAMPOS SON OBLIGATORIOS.</string>
+    <string name="pedido_realizado">PEDIDO  REALIZADO.    GRACIAS  POR  SU  COMPRA.</string>
+    <string name="conexion_fallida">Conexión fallida con el servidor.</string>
+    <string name="contrasña_incorrecta">Contraseña incorrecta</string>
 </resources>

@@ -15,7 +15,6 @@ import com.ivn.lamejortienda.R;
 public class PreferenciasActivity extends PreferenceActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setTheme(android.R.style.Theme_Material);
         super.onCreate(savedInstanceState);
 
@@ -24,7 +23,6 @@ public class PreferenciasActivity extends PreferenceActivity {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
 
         Preference modoPref = findPreference("opcion_modo");
-
         modoPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
 
@@ -40,23 +38,18 @@ public class PreferenciasActivity extends PreferenceActivity {
         });
 
         Preference contactoTlfPref = findPreference("opcion_contacto_tlf");
-
         contactoTlfPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-
 
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + "123456789"));
                 startActivity(intent);
-
-
 
                 return true;
             }
         });
 
         Preference contactoEmailPref = findPreference("opcion_contacto_email");
-
         contactoEmailPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
 
@@ -67,7 +60,6 @@ public class PreferenciasActivity extends PreferenceActivity {
                 return true;
             }
         });
-
 
     }
 }

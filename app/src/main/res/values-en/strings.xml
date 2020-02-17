@@ -58,6 +58,30 @@
     <string name="debe_iniciar_sesion">You must login to buy.</string>
 
 
+
+    <string name="tab_text_1">HOME DELIVERY</string>
+    <string name="tab_text_2">SHOP PICK</string>
+    <string name="repetir_contrase_a">REPEAT PASSWORD</string>
+    <string name="linea_direcci_n_1">DIRECTION LINE 1</string>
+    <string name="linea_direcci_n_2">DIRECTION LINE 2</string>
+    <string name="c_digo_postal">POSTAL CODE</string>
+    <string name="ciudad">CITY</string>
+    <string name="realizar_pedido">GO TO CHECKOUT</string>
+    <string name="ir_a_la_tienda">SHOP PICK</string>
+    <string name="contacto">Contact</string>
+    <string name="apariencia">Appearence</string>
+    <string name="general">General</string>
+    <string name="informaci_n_detallada">Show information</string>
+    <string name="obtener_ubicaci_n">Get ubication</string>
+    <string name="modo_oscuro">Dark mode</string>
+    <string name="t_lefono">Phone</string>
+    <string name="email">Email</string>
+
+    <string name="todos_campos">ALL THE FIELDS ARE REQUIRED.</string>
+    <string name="pedido_realizado">ORDER COMPLETED.    THANKS FOR YOUR PURCHASE.</string>
+    <string name="conexion_fallida">CONEXION LOST WITH THE SERVER.</string>
+    <string name="contrasña_incorrecta">WRONG PASSWORD</string>
+
     <string-array name="ordenLista">
         <item>ASCENDENT PRICE</item>
         <item>DESCENDENT PRICE</item>
@@ -65,12 +89,12 @@
         <item>ORDERS</item>
     </string-array>
     <string-array name="filtroMarcas">
-        <item>ALL</item>
-        <item>BRAND1</item>
-        <item>BRAND2</item>
-        <item>BRAND3</item>
-        <item>BRAND4</item>
-        <item>BRAND5</item>
-        <item>BRAND6</item>
+        <item>TODAS</item>
+        <item>APPLE</item>
+        <item>HUAWEI</item>
+        <item>ONEPLUS</item>
+        <item>OPPO</item>
+        <item>SAMSUNG</item>
+        <item>XIAOMI</item>
     </string-array>
 </resources>

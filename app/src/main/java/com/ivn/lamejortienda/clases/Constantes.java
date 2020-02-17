@@ -1,16 +1,5 @@
 package com.ivn.lamejortienda.clases;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
-
 public class Constantes {
 
     public static final String BASE_DATOS = "laMejorTiendaDB.db";
@@ -18,7 +7,7 @@ public class Constantes {
     // TABLAS
     public static final String TABLA_USUARIOS = "USUARIOS";
 
-    // TABLA USUARIOS
+    // CAMPOS TABLA USUARIOS
     public static final String USUARIO = "USUARIO";
     public static final String CONTRASEÑA = "CONTRASEÑA";
 
@@ -28,7 +17,6 @@ public class Constantes {
     public static final String URL_MODELOS = "/modelos";
     public static final String URL_MODELO = "/modelo?id=";  //
     public static final String URL_MODELOS_POR_MARCA = "/modelos_por_marca?marca=";
-    public static final String URL_USUARIOS = "/usuarios";
     public static final String URL_COMPROBAR_USUARIO = "/comprobar_usuario?usuario=";
     public static final String URL_NUEVO_USUARIO = "/nuevo_usuario?usuario=";
     public static final String URL_AÑADIR_CESTA = "/añadir_cesta?usuario=";

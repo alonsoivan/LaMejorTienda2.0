@@ -1,7 +1,6 @@
 package com.ivn.lamejortienda.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,21 +12,15 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 
 import com.ivn.lamejortienda.R;
 import com.ivn.lamejortienda.clases.Database;
 import com.ivn.lamejortienda.clases.Modelo;
-import com.ivn.lamejortienda.clases.NotificationWorker;
 import com.ivn.lamejortienda.clases.Usuario;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.concurrent.TimeUnit;
-
-import static androidx.work.PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS;
 import static com.ivn.lamejortienda.activities.CestaActivity.modelosCesta;
 import static com.ivn.lamejortienda.clases.Constantes.URL_AÑADIR_CESTA;
 import static com.ivn.lamejortienda.clases.Constantes.URL_COMPROBAR_USUARIO;
@@ -46,21 +39,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-        /*
-        Constraints constraints = new Constraints.Builder()
-                .setRequiresCharging(true)
-                .build();
-        */
-        // Pruebas servicio notis
-        PeriodicWorkRequest saveRequest =
-                new PeriodicWorkRequest.Builder(NotificationWorker.class, MIN_PERIODIC_INTERVAL_MILLIS , TimeUnit.MILLISECONDS)
-                        //.setConstraints(constraints)
-                        .build();
-
-        WorkManager.getInstance(this).enqueue(saveRequest);
-
 
         etUser = findViewById(R.id.etUser);
         etPass = findViewById(R.id.etPass);
@@ -176,9 +154,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intentDestacados);
                 finish();
             }else if(res == 0)
-                Toast.makeText(getApplicationContext(),"Contraseña incorrecta",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.contrasña_incorrecta,Toast.LENGTH_SHORT).show();
             else
-                Toast.makeText(getApplicationContext(),"Usuario incorrecto",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),R.string.usuario_incorrecto,Toast.LENGTH_SHORT).show();
 
 
             pbLogin.setVisibility(View.INVISIBLE);

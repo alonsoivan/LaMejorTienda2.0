@@ -50,7 +50,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
     private MapView mapView;
     private GoogleMap googleMap;
     private LatLng tienda = new LatLng(40.394257, -3.745465);
-    private String mode;      // Incida el modo de ruta: andando, en coche..
+    private String mode;      // Indica el modo de ruta: andando, en coche..
 
     public static final String MAPVIEW_BUNDLE_KEY = "AIzaSyCjhFV0xn40V0ojoNE2Qc1cfEzjRHcCJdc";
 
@@ -197,7 +197,6 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
             ArrayList points = null;
             PolylineOptions lineOptions = null;
-            //MarkerOptions markerOptions = new MarkerOptions();
 
             for (int i = 0; i < result.size(); i++) {
                 points = new ArrayList();
@@ -364,5 +363,4 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onLowMemory();
         mapView.onLowMemory();
     }
-
 }

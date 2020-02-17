@@ -41,7 +41,7 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
     public static ModeloAdapterCesta adaptador;
     public static float total = 0;
     public static TextView tvTotal;
-    public ProgressBar pbCesta;
+    private ProgressBar pbCesta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,18 +51,17 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
         usr = getIntent().getStringExtra("usr");
 
         pbCesta = findViewById(R.id.pbCesta);
-
-
-        if(usr != null) {
-            pbCesta.setVisibility(View.VISIBLE);
-            new TareaGetCestaUsuario().execute(URL_CESTA_USUARIO, usr);
-        }
+        tvTotal = findViewById(R.id.tvTotal);
 
         // Usuario
         TextView tvUsr = findViewById(R.id.tvUsr);
         tvUsr.setOnClickListener(this);
-        if(usr != null)
+
+        if(usr != null) {
             tvUsr.setText(usr);
+            pbCesta.setVisibility(View.VISIBLE);
+            new TareaGetCestaUsuario().execute(URL_CESTA_USUARIO, usr);
+        }
 
 
         Button btCancelar = findViewById(R.id.btCancelar);
@@ -77,15 +76,6 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
         registerForContextMenu(lvModelos);
         adaptador = new ModeloAdapterCesta(this,modelosCesta);
         lvModelos.setAdapter(adaptador);
-
-
-        // Obtener el precio total de la cesta
-        tvTotal = findViewById(R.id.tvTotal);
-        total = 0;
-        for (Modelo modelo: modelosCesta)
-            total += (modelo.getPrecio()*modelo.getCantidad());
-
-        tvTotal.setText(Util.format(total));
     }
 
     @Override
@@ -95,16 +85,7 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
             pbCesta.setVisibility(View.VISIBLE);
             new TareaGetCestaUsuario().execute(URL_CESTA_USUARIO, usr);
         }else {
-
-            adaptador.notifyDataSetChanged();
-
-            // Obtener el precio total de la cesta
-            tvTotal = findViewById(R.id.tvTotal);
-            total = 0;
-            for (Modelo modelo : modelosCesta)
-                total += (modelo.getPrecio() * modelo.getCantidad());
-
-            tvTotal.setText(Util.format(total));
+            actualizarPrecio();
         }
     }
 
@@ -131,6 +112,7 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(this, R.string.cesta_vacia ,Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvUsr:
+
                 Util.login(this,usr);
                 break;
             default:
@@ -150,7 +132,6 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         final int itemSeleccionado = info.position;
-        final TextView tvTotal = findViewById(R.id.tvTotal);
 
         final Modelo modelo = modelosCesta.get(itemSeleccionado);
         switch (item.getItemId()) {
@@ -209,19 +190,23 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
         protected void onPostExecute(Void resultado) {
             super.onPostExecute(resultado);
 
-            // si limpio peta, pero sino se duplican
             modelosCesta.clear();
             modelosCesta.addAll(aux);
 
-            adaptador.notifyDataSetChanged();
-            total = 0;
-            for (Modelo modelo: modelosCesta)
-                total += (modelo.getPrecio()*modelo.getCantidad());
-
-            tvTotal.setText(Util.format(total));
+            actualizarPrecio();
 
             pbCesta.setVisibility(View.INVISIBLE);
         }
+    }
+
+
+    public void actualizarPrecio(){
+        adaptador.notifyDataSetChanged();
+        total = 0;
+        for (Modelo modelo: modelosCesta)
+            total += (modelo.getPrecio()*modelo.getCantidad());
+
+        tvTotal.setText(Util.format(total));
     }
 
     public class TareaRealizarPedido extends AsyncTask<String, Void, Void> {
@@ -277,12 +262,10 @@ public class CestaActivity extends AppCompatActivity implements View.OnClickList
         @Override
         protected void onPostExecute(Void resultado) {
             super.onPostExecute(resultado);
-            adaptador.notifyDataSetChanged();
-            total = 0;
-            for (Modelo modelo: modelosCesta)
-                total += (modelo.getPrecio()*modelo.getCantidad());
 
-            tvTotal.setText(Util.format(total));
+            actualizarPrecio();
+
+            pbCesta.setVisibility(View.INVISIBLE);
         }
     }
 }

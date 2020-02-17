@@ -50,13 +50,13 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         String user = etUser.getText().toString();
 
         if(pass.equals("") || repetirPass.equals("") || user.equals(""))
-            Toast.makeText(this, "Campos vacios.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.campos_vacios, Toast.LENGTH_SHORT).show();
         else {
             pbLogin.setVisibility(View.VISIBLE);
             if (pass.equals(repetirPass)) {
                 new TareaComprobarUsuario().execute(URL_COMPROBAR_USUARIO, user);
             } else {
-                Toast.makeText(this, "La contraseña no coincide", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.contraseña_incorrecta, Toast.LENGTH_SHORT).show();
                 pbLogin.setVisibility(View.INVISIBLE);
             }
         }
@@ -124,12 +124,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             super.onPostExecute(resultado);
 
             if(res >= 0) {
-                Toast.makeText(getApplicationContext(), "Usuario ya existe", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.usuario_ya_existe, Toast.LENGTH_SHORT).show();
                 pbLogin.setVisibility(View.INVISIBLE);
             }else
                 new TareaNuevoUsuario().execute(URL_NUEVO_USUARIO,etUser.getText().toString(),etPass.getText().toString());
-
-
 
         }
     }

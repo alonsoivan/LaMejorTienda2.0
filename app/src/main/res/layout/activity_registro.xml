@@ -70,7 +70,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/edittext_rounded_corners_border"
             android:ems="10"
-            android:hint="Repetir contraseña"
+            android:hint="@string/repetir_contrase_a"
             android:inputType="textPassword"
             android:paddingStart="20dp"
             android:paddingTop="20dp"
@@ -88,7 +88,6 @@
             android:backgroundTint="@color/colorPrimary"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-
             android:text="@string/registrar"
             android:textColor="@color/textColor"
             android:textSize="24sp" />

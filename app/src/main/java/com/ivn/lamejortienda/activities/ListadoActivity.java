@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ivn.lamejortienda.R;
-import com.ivn.lamejortienda.clases.Database;
 import com.ivn.lamejortienda.clases.Modelo;
 import com.ivn.lamejortienda.clases.ModeloAdapterListado;
 import com.ivn.lamejortienda.clases.Objetos;
@@ -46,7 +44,7 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
     private ModeloAdapterListado adaptador;
     private Spinner spinnerOrden;
     private Spinner spinnerFiltro;
-    private ListView listaModelos;
+    private ListView listViewModelos;
     private ProgressBar pbLista;
 
     @Override
@@ -66,12 +64,9 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
 
         modelos = new ArrayList<>();
 
-        listaModelos = findViewById(R.id.lvListaProductos);
+        listViewModelos = findViewById(R.id.lvListaProductos);
 
-        // CAMBIAR //ª
-
-        listaModelos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            // PROVISIONALLL --------
+        listViewModelos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intentModelo = new Intent(getApplicationContext(), ProductoActivity.class);
@@ -83,7 +78,7 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
 
         adaptador = new ModeloAdapterListado(this,modelos);
 
-        listaModelos.setAdapter(adaptador);
+        listViewModelos.setAdapter(adaptador);
 
         // Spinners
         spinnerOrden = findViewById(R.id.spinner_orden);
@@ -104,7 +99,7 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
         FloatingActionButton carrito = findViewById(R.id.btCarrito);
         carrito.setOnClickListener(this);
 
-        // poner al spinner la marca destacada que hayan seleccionado  //
+        // poner al spinner la marca destacada que hayan seleccionado
         spinnerFiltro.setSelection(getIntent().getIntExtra("marca",0));
 
     }
@@ -142,7 +137,6 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
                             modelos.sort(Comparator.comparing(Modelo::getVentas).reversed());
                             break;
                     }
-
 
                     adaptador.notifyDataSetChanged();
                 } else {
@@ -226,10 +220,7 @@ public class ListadoActivity extends AppCompatActivity implements AdapterView.On
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        // PROVISIONAL 4
-        // revisar si se puede NO selecionar algo
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 
     @Override
     public void onClick(View v) {

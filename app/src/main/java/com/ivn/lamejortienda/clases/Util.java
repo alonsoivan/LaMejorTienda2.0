@@ -8,7 +8,6 @@ import com.ivn.lamejortienda.activities.LoginActivity;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-
 public class Util {
 
     public static String format(float d){

@@ -51,8 +51,6 @@ public class TiendaFragment extends Fragment implements OnMapReadyCallback, View
         btIrMapa.setOnClickListener(this);
         mapView = root.findViewById(R.id.mapView);
 
-
-
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
 

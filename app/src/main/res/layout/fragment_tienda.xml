@@ -44,7 +44,7 @@
         android:paddingTop="20dp"
         android:paddingRight="10dp"
         android:paddingBottom="20dp"
-        android:text="Ir a la tienda"
+        android:text="@string/ir_a_la_tienda"
         android:textColor="@color/textColor"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

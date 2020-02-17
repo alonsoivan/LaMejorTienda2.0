@@ -69,15 +69,14 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void ponerFotos(){
-        // poner la desc de los objetos sobre los imageview , no en el diseño //
+
         if(listaMarcas.size()>4) {
             marca1.setImageBitmap(listaMarcas.get(0).getBitmap());
             marca2.setImageBitmap(listaMarcas.get(1).getBitmap());
             marca3.setImageBitmap(listaMarcas.get(2).getBitmap());
             marca4.setImageBitmap(listaMarcas.get(4).getBitmap());
         }else
-            Toast.makeText(this,"Conexión fallida con el servidor.",Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this,R.string.conexion_fallida,Toast.LENGTH_SHORT).show();
 
         if(listaModelos.size()>3){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -92,7 +91,7 @@ public class DestacadosActivity extends AppCompatActivity implements View.OnClic
             modelo4.setImageBitmap(listaModelos.get(3).getBitmap());
             modelo4.setContentDescription(String.valueOf(listaModelos.get(3).getId()));
         }else
-            Toast.makeText(this,"Conexión fallida con el servidor.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.conexion_fallida,Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,14 +29,6 @@ public class PlaceholderFragment extends Fragment implements View.OnClickListene
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private PageViewModel pageViewModel;
-
-    public static PlaceholderFragment newInstance(int index) {
-        PlaceholderFragment fragment = new PlaceholderFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,11 +67,11 @@ public class PlaceholderFragment extends Fragment implements View.OnClickListene
         String cp = etCP.getText().toString();
 
         if(dir1.isEmpty() || dir2.isEmpty() || ciudad.isEmpty() || cp.isEmpty())
-            Snackbar.make(v, "TODOS LOS CAMPOS SON OBLIGATORIOS.", Snackbar.LENGTH_SHORT)
+            Snackbar.make(v, getString(R.string.todos_campos), Snackbar.LENGTH_SHORT)
                     .setActionTextColor(Color.RED)
                     .show();
         else
-            Snackbar.make(v, "PEDIDO  REALIZADO.    GRACIAS  POR  SU  COMPRA.", Snackbar.LENGTH_SHORT)
+            Snackbar.make(v, getString(R.string.pedido_realizado), Snackbar.LENGTH_SHORT)
                     .setActionTextColor(Color.RED)
                     .show();
     }

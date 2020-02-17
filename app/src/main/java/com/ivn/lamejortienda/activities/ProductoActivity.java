@@ -64,7 +64,7 @@ public class ProductoActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    @Override // Arreglar
+    @Override
     public void onClick(View v) {
 
         switch (v.getId()){
@@ -144,7 +144,6 @@ public class ProductoActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-
     class TareaAñadirCesta extends AsyncTask<String, Void, Void> {
         boolean cesta;
 
@@ -184,18 +183,11 @@ public class ProductoActivity extends AppCompatActivity implements View.OnClickL
 
     class TareaDescargaModelo extends AsyncTask<String, Void, Void> {
 
-        /*
-         * En este método se debe escribir el código de la tarea que se desea
-         * realizar en segundo plano.
-         * Hay que tener en cuenta que Android no nos permitirá acceder a
-         * ningún componente de la GUI desde este método
-         */
         @Override
         protected Void doInBackground(String... params) {
             RestTemplate restTemplate = new RestTemplate();
 
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
 
             modelo = restTemplate.getForObject(URL_SERVIDOR + URL_MODELO + params[0], Modelo.class);
             System.out.println(modelo.getNombre());
@@ -240,5 +232,4 @@ public class ProductoActivity extends AppCompatActivity implements View.OnClickL
             pbProducto.setVisibility(View.INVISIBLE);
         }
     }
-
 }

@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import static com.ivn.lamejortienda.activities.CestaActivity.adaptador;
 import static com.ivn.lamejortienda.activities.CestaActivity.total;
 import static com.ivn.lamejortienda.activities.CestaActivity.tvTotal;
-
 public class ModeloAdapterCesta extends BaseAdapter {
 
     private Context context;

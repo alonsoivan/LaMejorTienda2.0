@@ -11,11 +11,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.ivn.lamejortienda.R;
 import com.ivn.lamejortienda.clases.TiendaFragment;
 
-
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes

@@ -2,13 +2,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <PreferenceCategory android:title="General">
+    <PreferenceCategory android:title="@string/general">
 
         <CheckBoxPreference
             android:key="opcion_ver_informacion"
             android:icon="@drawable/info"
             android:summary="Ver información detallada de un modelo."
-            android:title="Información detallada" />
+            android:title="@string/informaci_n_detallada" />
 
         <ListPreference
             android:dialogTitle="Obtener ubicación"
@@ -17,33 +17,33 @@
             android:key="opcion_ubicacion"
             android:icon="@drawable/ubi"
             android:summary="Cuando la aplicación lo necesite, se accedera a la ubicación a traves de:"
-            android:title="Obtener ubicación" />
+            android:title="@string/obtener_ubicaci_n" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Apariencia">
+    <PreferenceCategory android:title="@string/apariencia">
 
         <SwitchPreference
             android:dialogTitle="Modo noche"
             android:icon="@drawable/brillo"
             android:key="opcion_modo"
-            android:title="Modo oscuro"
+            android:title="@string/modo_oscuro"
             android:summary="Elige entre modo dia/modo noche."/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Contacto">
+    <PreferenceCategory android:title="@string/contacto">
 
         <Preference
             android:key="opcion_contacto_tlf"
             android:icon="@drawable/contacto"
-            android:title="Télefono"
+            android:title="@string/t_lefono"
             android:summary="Asistencia telefónica 24."/>
 
         <Preference
             android:key="opcion_contacto_email"
             android:icon="@drawable/correo"
-            android:title="Email"
+            android:title="@string/email"
             android:summary="Mándanos tus dudas."/>
 
     </PreferenceCategory>

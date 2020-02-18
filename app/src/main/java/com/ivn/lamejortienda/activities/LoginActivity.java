@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     pbLogin.setVisibility(View.VISIBLE);
                     new TareaDescarga().execute(URL_COMPROBAR_USUARIO, usuario, contraseña);
                 }else
-                    Toast.makeText(this,"Campos vacios.",Toast.LENGTH_SHORT).show();
+                   Toast.makeText(this,R.string.campos_vacios, Toast.LENGTH_SHORT).show();
 
                 break;
 
@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intentDestacados);
                 finish();
             }else if(res == 0)
-                Toast.makeText(getApplicationContext(), R.string.contrasña_incorrecta,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.contrasña_incorrecta, Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(getApplicationContext(),R.string.usuario_incorrecto,Toast.LENGTH_SHORT).show();
 

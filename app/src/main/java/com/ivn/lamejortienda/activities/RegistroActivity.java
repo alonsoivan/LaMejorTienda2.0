@@ -1,18 +1,18 @@
 package com.ivn.lamejortienda.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.ivn.lamejortienda.R;
-import com.ivn.lamejortienda.clases.Database;
 import com.ivn.lamejortienda.clases.Usuario;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -49,14 +49,20 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         String repetirPass = etRepetirPass.getText().toString();
         String user = etUser.getText().toString();
 
-        if(pass.equals("") || repetirPass.equals("") || user.equals(""))
-            Toast.makeText(this, R.string.campos_vacios, Toast.LENGTH_SHORT).show();
+        if(pass.equals("") || repetirPass.equals("") || user.equals("")) {
+            Toast t = Toast.makeText(this, R.string.campos_vacios, Toast.LENGTH_SHORT);
+            t.setGravity(Gravity.TOP | Gravity.LEFT, 345, 1480);
+            t.show();
+        }
         else {
             pbLogin.setVisibility(View.VISIBLE);
             if (pass.equals(repetirPass)) {
                 new TareaComprobarUsuario().execute(URL_COMPROBAR_USUARIO, user);
             } else {
-                Toast.makeText(this, R.string.contraseña_incorrecta, Toast.LENGTH_SHORT).show();
+                Toast t = Toast.makeText(this, R.string.contraseñas_no_coinciden , Toast.LENGTH_SHORT);
+                t.setGravity(Gravity.TOP | Gravity.LEFT, 240, 1480);
+                t.show();
+
                 pbLogin.setVisibility(View.INVISIBLE);
             }
         }

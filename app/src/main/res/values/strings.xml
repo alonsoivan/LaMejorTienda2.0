@@ -114,4 +114,5 @@
     <string name="pedido_realizado">PEDIDO  REALIZADO.    GRACIAS  POR  SU  COMPRA.</string>
     <string name="conexion_fallida">Conexión fallida con el servidor.</string>
     <string name="contrasña_incorrecta">Contraseña incorrecta</string>
+    <string name="contraseñas_no_coinciden">Las contraseñas no coinciden</string>
 </resources>
